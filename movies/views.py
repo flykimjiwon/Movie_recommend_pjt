@@ -35,6 +35,8 @@ def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     context = {
         'movie': movie,
+        'url':"https://image.tmdb.org/t/p/original"+movie.poster_path,
+        
     }
     return render(request, 'movies/detail.html', context)
 
@@ -50,3 +52,13 @@ def recommended(request):
     }
 
     return render(request, 'movies/recommended.html', context)
+
+@require_safe
+def recoreco(request):
+    
+    context = {
+        
+    }
+    
+
+    return render(request, 'movies/recoreco.html', context)

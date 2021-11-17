@@ -3,7 +3,7 @@
 {% block content %}
   <br>
   <h1 class='fw-bold'>{{ movie.title }}</h1>
-  <img src="{{ movie.poster_path }}" alt="">
+  <img src=" {{url}}" alt="" width="500">
   <div class='fs-4'>개봉일 : {{ movie.release_date }}</div>
   <div class='fs-4'>평점 : {{ movie.vote_average }}</div>
   {% if movie.overview %}
