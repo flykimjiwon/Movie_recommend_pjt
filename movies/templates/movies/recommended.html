@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>추천영화</h1>
+
+{% for num in random_nums %}
+  {% for movie in movies %}
+    {% if movie.pk == num %}
+      <hr>
+      <h2 class='fw-bold'>{{ movie.title }}</h2>
+      <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-secondary'>Detail</a>
+      <br>
+      <img src="{{ movie.poster_path }}" alt="">
+
+    {% endif %}
+  {% endfor %}
+  
+
+{% endfor %}
+
+
+{% endblock %}
