@@ -1,5 +1,9 @@
 ## 최종_PJT
 
+![image-20211118103600999](README.assets/image-20211118103600999.png)
+
+https://www.notion.so/6f2e2740f0024677a705942db5888a55?v=2cd78282f7b249d182d3645b8813ed91
+
 ### * 계획
 
 | 날짜  | 링크                                                         |
