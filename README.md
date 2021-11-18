@@ -1,8 +1,12 @@
 ## 최종_PJT
 
-### * 오늘의 할일
+### * 계획
 
-https://valiant-eustoma-bc0.notion.site/4947f5644c124a158da20397e5d9ae3a?v=7c48e54c859b46438bf967b239ccb2e4
+| 날짜  | 링크                                                         |
+| ----- | ------------------------------------------------------------ |
+| 11/17 | https://valiant-eustoma-bc0.notion.site/4947f5644c124a158da20397e5d9ae3a?v=7c48e54c859b46438bf967b239ccb2e4 |
+| 11/18 | https://valiant-eustoma-bc0.notion.site/de071b872e864f72820377cdd6b2a5ec?v=732ab8722355466d8b4c6d976f646982 |
+|       |                                                              |
 
 >  노션에 올려두었습니다!
 
