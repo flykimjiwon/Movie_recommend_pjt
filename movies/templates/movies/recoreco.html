@@ -2,11 +2,61 @@
 
 {% block content %}
 <h1>추천영화</h1>
-<h2>asdfasdf</h2>
-<label for="name">Name (4 to 8 characters):</label>
+
+{% comment %} <label for="name">Name (4 to 8 characters):</label>
 
 <input type="text" id="name" name="name" required
-       minlength="4" maxlength="8" size="10">
+       minlength="4" maxlength="8" size="10"> {% endcomment %}
+
+ <form action="{% url 'community:create' %}" method="POST">    
+{% csrf_token %}
+        <input type="text" id="search" name="search" Placeholder="hi" value="ah"> 
+       {% comment %} <input type="submit" value="작성"> {% endcomment %}
+       <button type="submit" id="button">버튼</button>
+
+  </form>
+
+        <button type="button" id="button2">버튼</button>
 
 
+        <input placeholder="Enter some text" name="name"/>
+       <p id="values"></p>
+
+  
+
+<script> 
+
+{% comment %} alert('hello') {% endcomment %}
+const search = document.querySelector('#search')
+const btn = document.querySelector('#button')
+const btn2 = document.querySelector('#button2')
+const genre = "액션"
+btn.addEventListener('click', function (event) {
+    alert('버튼이 클릭되었습니다.')
+    console.log(event)
+    console.log(genre)
+    // console.log('버튼이 눌렸다!!')
+  })
+btn2.addEventListener('click', function (event) {
+       search.value="hhhhhhh"
+    //search.placeholder="hihi"
+    //search.innerText="hhh"
+    //search.textContent="whwhwh"
+    // let value = '' 이런식으로 문자배열 늘려나가서 추가해주지머
+    // placeholder 소문자로해야함
+    console.log(genre)
+  })
+
+
+  /////////////////
+  const input = document.querySelector('input');
+const log = document.getElementById('values');
+
+input.addEventListener('input', updateValue);
+
+function updateValue(e) {
+  log.textContent = e.target.value;
+}
+
+</script>
 {% endblock %}
