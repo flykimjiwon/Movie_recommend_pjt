@@ -62,18 +62,14 @@ def create_comment(request, review_pk):
     return render(request, 'community/detail.html', context)
 
 
-# @require_POST
-# def like(request, review_pk):
-#     if request.user.is_authenticated:
-#         review = get_object_or_404(Review, pk=review_pk)
-#         user = request.user
+@require_POST
+def delete_comment(request, review_pk, comment_pk):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if request.user == comment.user:
+            comment.delete()
+    return redirect('community:detail', review_pk)
 
-#         if review.like_users.filter(pk=user.pk).exists():
-#             review.like_users.remove(user)
-#         else:
-#             review.like_users.add(user)
-#         return redirect('community:index')
-#     return redirect('accounts:login')
 
 @require_POST
 def like(request, review_pk):

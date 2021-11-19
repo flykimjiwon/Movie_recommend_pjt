@@ -18,6 +18,13 @@
   {% for comment in comments %}
     <div>
       {{ comment.user }} - {{ comment.content }}
+      {{ comment.pk }}
+        {% if user == comment.user %}
+          <form action="{% url 'community:delete_comment' review.pk comment.pk %}" method="POST" class="d-inline">
+            {% csrf_token %}
+            <input type="submit" value="DELETE">
+          </form>
+        {% endif %}
     </div>
   {% empty %}
     <p><b>댓글이 없어요..</b></p>
