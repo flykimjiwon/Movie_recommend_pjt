@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_http_methods
 from .forms import CustomUserCreationForm
 from django.http import JsonResponse
-
+import random
+import requests
 
 @require_http_methods(['GET', 'POST'])
 def signup(request):
@@ -55,8 +56,47 @@ def logout(request):
 @login_required
 def profile(request, username):
     person = get_object_or_404(get_user_model(), username=username)
+    movie_list = person.like_movies.all()
+    # genre = movie_list[2].genres.all()
+    # 여기서 뽑아내자
+    
+    #찜한 영화에서 속한 장르에서 무작위 2개골라서 그 2개가 들어간녀석중에 랜덤!
+    # num = len(movie_list)
+    # num2 = len(genre)
+    genre_list=[]
+    cnt=0
+    for i in range(len(movie_list)):
+        for j in range(len(movie_list[i].genres.all())):
+            cnt+=1
+            genre_list.append(movie_list[i].genres.all()[j].id) 
+
+    genre_list = list(set(genre_list))
+    if len(genre_list) !=0:
+        genre_list = random.sample(genre_list,2)
+    else:
+        genre_list = []
+    url_key=''
+    for i in range(len(genre_list)):
+        url_key += str(genre_list[i])+','
+
+    url='https://api.themoviedb.org/3/discover/movie?api_key=7c6377fdbf40d8566d0e591005c3dad5&language=ko-KR&with_genres='+url_key+'&sort_by=popularity.desc'
+    response=requests.get(url).json()
+    result = response["results"]
+    random_len = len(result)
+    result_num = random.randrange(0,random_len)
+
     context = {
         'person': person,
+        'movie_list':movie_list,
+        # 'genre':genre[0].id,
+        # 'genre2':genre[0],
+        # 'genre3':genre,
+        # 'num':num,
+        'genre_list':genre_list,
+        # 'num2':num2,
+        'cnt':cnt,
+        'url_key':url_key,
+        'result':result[result_num],
     }
     return render(request, 'accounts/profile.html', context)
 

@@ -9,6 +9,9 @@
       <div class="movie">
         <h3 class='fw-bold'>{{ movie.title }}</h3>
         <p>{{ movie.overview }}</p>
+        {% comment %} {{ movie.poster_path}} {% endcomment %}
+        {% comment %} {{movie.genres.all}}  {% endcomment %}
+
 
         <form class="like-form" data-movie-id="{{ movie.pk }}">
           {% csrf_token %}
@@ -68,7 +71,7 @@
     })
   })
 
-  // 무한스크롤 기능
+  {% comment %} // 무한스크롤 기능
   let pageNum = 2
   document.addEventListener('scroll', (event) => {
     console.log(event)
@@ -99,7 +102,7 @@
           pageNum += 1
         })
     }
-  })
+  }) {% endcomment %}
 
 </script>
 {% endblock %}

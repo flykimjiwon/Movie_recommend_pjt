@@ -10,7 +10,17 @@ class ReviewForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-
+    content = forms.CharField(
+        label='',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'my-content',
+                'rows': 1,
+                'cols': 70,
+                'placeholder': '댓글을 입력하세요.'
+            }
+        )
+    )
     class Meta:
         model = Comment
         exclude = ['review', 'user']

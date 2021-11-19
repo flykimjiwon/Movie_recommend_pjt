@@ -23,16 +23,22 @@
         <button id="like-button-{{ movie.pk }}" class='btn btn-primary'>찜 목록에 추가</button>
       {% endif %}
   </form>
-  
+
   <hr>
-  <h4>댓글 목록</h4>
+  <h4>평점 목록</h4>
   {% if comments %}
-    <p><b>{{ comments|length }}개의 댓글이 있습니다.</b></p>
+    <p><b>{{ comments|length }}개의 평점이 있습니다.</b></p>
   {% endif %}
-  <ul>
+  <ul> 
     {% for comment in comments %}
       <li>
-        {{ comment.user }} - {{ comment.content }}
+        {% if comment.rank == 1 %}★
+        {% elif comment.rank == 2 %}★★
+        {% elif comment.rank == 3 %}★★★
+        {% elif comment.rank == 4 %}★★★★
+        {% else %}★★★★★
+        {% endif %}
+        {{ comment.content }} - {{ comment.user }}
         {% if user == comment.user %}
           <form action="{% url 'movies:comments_delete' movie.pk comment.pk %}" method="POST" class="d-inline">
             {% csrf_token %}
@@ -41,7 +47,7 @@
         {% endif %}
       </li>
     {% empty %}
-      <p>댓글이 없어요..</p>
+      <p>평점이 아직 없어요!</p>
     {% endfor %}
   </ul>
 
@@ -51,13 +57,17 @@
     <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
       {% csrf_token %}
       {{ comment_form }}
-      <input type="submit" id="comment-submit-{{ movie.pk }}">
+      <input type="submit" id="comment-submit-{{ movie.pk }}" value='등록'>
     </form>
   {% else %}
-    <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
+    <a href="{% url 'accounts:login' %}">[평점을 작성하려면 로그인하세요.]</a>
   {% endif %}
   
+
 {% endblock %}
+
+
+
 
 <script>
   // 좋아요 기능

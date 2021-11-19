@@ -20,6 +20,8 @@ class Movie(models.Model):
     
 
 class MovieComment(models.Model):
+    rank_choices = ((5, '★★★★★'),(4, '★★★★'),(3, '★★★'),(2, '★★'),(1, '★'))
+    rank = models.IntegerField(choices=rank_choices)
     content = models.TextField()
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='movie_comments')
