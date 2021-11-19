@@ -1,3 +1,8 @@
 from django import forms
+from movies.models import MovieComment
 
-# Create your forms here.
+class MovieCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = MovieComment
+        exclude = ('movie', 'user',)

@@ -9,6 +9,19 @@
       <div class="movie">
         <h3 class='fw-bold'>{{ movie.title }}</h3>
         <p>{{ movie.overview }}</p>
+
+        <form class="like-form" data-movie-id="{{ movie.pk }}">
+          {% csrf_token %}
+          {% if user in movie.like_users.all %}
+              <button id="like-button-{{ movie.pk }}" class='btn btn-secondary'>찜 목록에서 삭제</button>
+            {% else %}
+              <button id="like-button-{{ movie.pk }}" class='btn btn-primary'>찜 목록에 추가</button>
+            {% endif %}
+        </form>
+        {% comment %} <p>
+          <span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span>명이 이 글을 좋아합니다.
+        </p> {% endcomment %}
+
         <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-secondary'>detail</a>
         <hr>
       </div>
@@ -19,8 +32,44 @@
 
 {% block script %}
 <script>
-  let pageNum = 2
+  // 좋아요 기능
+  const forms = document.querySelectorAll('.like-form')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  // console.log(csrftoken)
+  // for..of / forEach 여러 forms를 반복을 돌면서 axios를 요청할 수 있도록 함
+  forms.forEach(form => {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault()
+      // console.log(event.target.dataset.movieId)
+      const movieId = event.target.dataset.movieId
 
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/movies/${movieId}/like/`,
+        headers: {'X-CSRFToken': csrftoken},
+      })
+        .then(response => {
+          console.log(response.data)
+          const liked = response.data.liked
+          const likeButton = document.querySelector(`#like-button-${movieId}`)
+          // const likeCount = document.querySelector(`#like-count-${movieId}`)
+          const count = response.data.count
+          likeButton.classList.toggle('btn-primary')
+          likeButton.classList.toggle('btn-secondary')
+
+          if (liked === true) {
+            likeButton.innerText = '찜 목록에서 삭제'
+          } else {
+            likeButton.innerText = '찜 목록에 추가'
+          }
+
+          // likeCount.innerText = count
+        })
+    })
+  })
+
+  // 무한스크롤 기능
+  let pageNum = 2
   document.addEventListener('scroll', (event) => {
     console.log(event)
     const {scrollHeight, scrollTop, clientHeight} = document.documentElement
@@ -33,13 +82,13 @@
       })
         .then((res) => {
           const movies = res.data
-          
+
           movies.forEach((movie) => {
             const movieList = document.querySelector('.movie-list')
             const movieDiv = document.createElement('div')
 
             const movieHTML = `
-              <h3>${ movie.fields.title }</h3>
+              <h3 class='fw-bold'>${ movie.fields.title }</h3>
               <p>${ movie.fields.overview }</p>
               <a href="movies/${ movie.pk }/" type='btn' class='btn btn-secondary'>detail</a>
               <hr>
