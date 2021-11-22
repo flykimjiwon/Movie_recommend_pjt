@@ -1,31 +1,61 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Community</h1>
-  <hr>
-  {% for review in reviews %}
+<br><br>
+<table class="table table-striped table-hover">
+<thead>
+<tr>
+<th>번호</th>
+<th>제목</th>
+<th>작성시간</th>
+<th>작성자</th>
+<th>좋아요수</th>
+{% comment %} <th>좋아요</th> {% endcomment %}
+</tr>
+</thead>
+<tbody>
+{% for review in reviews %}
+<tr>
+<td>{{ review.pk }}</td>
+
+<td><a href="{% url 'community:detail' review.pk %}">{{ review.title }}</a></td>
+<td>{{ review.created_at }}</td>
+<td><a href="{% url 'accounts:profile' review.user.username %}">{{ review.user }}</a></td>
+<td><span id="like-count-{{ review.pk }}">{{ review.like_users.all|length }}</span></td>
+{% comment %} <td>123</td> {% endcomment %}
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+
+<br><br>
+  
+  {% comment %} {% for review in reviews %}
     <p>작성자 : <a href="{% url 'accounts:profile' review.user.username %}">{{ review.user }}</a></p>
     <p>글 번호: {{ review.pk }}</p>
     <p>글 제목: {{ review.title }}</p>
     <p>글 내용: {{ review.content }}</p>
 
     <form class="like-form" data-article-id="{{ review.pk }}">
-    {% comment %} <form action="{% url 'community:like' review.pk %}" method="POST" class="d-inline"> {% endcomment %}
       {% csrf_token %}
       {% if user in review.like_users.all %}
-          <button id="like-button-{{ review.pk }}" class='btn btn-secondary'>좋아요 취소</button>
+          <button id="like-button-{{ review.pk }}" class='btn btn-outline-light mb-4'>좋아요 취소</button>
         {% else %}
-          <button id="like-button-{{ review.pk }}" class='btn btn-primary'>좋아요</button>
+          <button id="like-button-{{ review.pk }}" class='btn btn-outline-light mb-4'>좋아요</button>
         {% endif %}
       </form>
       <p>
         <span id="like-count-{{ review.pk }}">{{ review.like_users.all|length }}</span>명이 이 글을 좋아합니다.
       </p>
-
-    <a href="{% url 'community:detail' review.pk %}" type='btn' class='btn btn-secondary'>detail</a>
+  
+    <a href="{% url 'community:detail' review.pk %}" type='btn' class='btn btn-outline-light mb-4'>detail</a>
     <hr>
-  {% endfor %}
+  {% endfor %} {% endcomment %}
 {% endblock %}
+
+
 
 {% block script %}
 <script>

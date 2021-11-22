@@ -2,16 +2,90 @@
 
 {% block content %}
 <br>
-  <h1 class='fw-bold'>Movies List</h1>
+  {% comment %} <h1 class='fw-bold'>Movies List</h1> {% endcomment %}
   <br>
-  <div class="movie-list">
+
+
+
+  <div class="row">
+{% for movie_list in movies %}
+
+
+
+
+    
+    <div class="col-3">
+      <div class="card border-light mb-3" style="max-width: 18rem;">
+  <div class="card-header modalList">
+  {{ movie_list.title }}
+  <a href="{% url 'movies:detail' movie_list.id %}" >detail</a>
+
+  </div>
+  <div class="card-body">
+  {% if movie_list.poster_path|length%}
+    {% comment %} <img src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"  alt="" width="250"> {% endcomment %}
+
+<div
+                    class="bg-image hover-overlay ripple"
+                    data-mdb-ripple-color="light"
+                  >
+                    <img
+                      src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
+                      class="img-fluid"
+                    />
+                    <a href="#!">
+                      <div
+                        class="mask"
+                        style="background-color: rgba(251, 251, 251, 0.15)"
+                      ></div>
+                    </a>
+                  </div>
+
+{% comment %}  {% endcomment %}
+    {% else %}
+
+    포스터가 없는 영화입니다
+    {% endif %}
+
+    {% comment %} <h5 class="card-title">개봉일 - {{ movie_list.release_date}}</h5> {% endcomment %}
+     <form class="like-form" data-movie-id="{{ movie_list.pk }}">
+          {% csrf_token %}
+          {% if user in movie_list.like_users.all %}
+              <button id="like-button-{{ movie_list.pk }}" class='btn btn-outline-light mb-4'>찜 목록에서 삭제</button>
+            {% else %}
+              <button id="like-button-{{ movie_list.pk }}" class='btn btn-outline-light mb-4'>찜 목록에 추가</button>
+            {% endif %}
+        </form> 
+    <p class="card-text">
+    {% if movie_list.overview|length%}
+    {{ movie_list.overview|slice:":50"}}....
+    {% else %}
+    줄거리가 없는 영화입니다
+    {% endif %}
+    </p>
+    {% comment %} 슬라이씽 {% endcomment %}
+  </div>
+</div>
+    </div>
+   
+  
+
+
+{% comment %} {{movie_list.title}} {% endcomment %}
+{% comment %} {{movie_list.overview}} {% endcomment %}
+
+{% endfor%}
+</div>
+
+ {% comment %} <div class="movie-list">
+
+
+
     {% for movie in movies %}
       <div class="movie">
         <h3 class='fw-bold'>{{ movie.title }}</h3>
         <p>{{ movie.overview }}</p>
-        {% comment %} {{ movie.poster_path}} {% endcomment %}
-        {% comment %} {{movie.genres.all}}  {% endcomment %}
-
+      
 
         <form class="like-form" data-movie-id="{{ movie.pk }}">
           {% csrf_token %}
@@ -21,26 +95,40 @@
               <button id="like-button-{{ movie.pk }}" class='btn btn-primary'>찜 목록에 추가</button>
             {% endif %}
         </form>
-        {% comment %} <p>
-          <span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span>명이 이 글을 좋아합니다.
-        </p> {% endcomment %}
+        
 
         <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-secondary'>detail</a>
         <hr>
       </div>
     {% endfor %}
-  </div>
-{% endblock %}
+  </div>  {% endcomment %}
 
-
-{% block script %}
 <script>
-  // 좋아요 기능
-  const forms = document.querySelectorAll('.like-form')
+const forms = document.querySelectorAll('.like-form')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  const modalLists = document.querySelectorAll('.modalList')
+
+  modalLists.forEach(ml=>{
+    ml.addEventListener('click',function(event){
+      
+      alert('hoihi')
+      console.log('hihih')
+    })
+  }) 
+
+  const movies = document.querySelectorAll('.card-header')
+  movies.forEach(movie=>{
+    movie.addEventListener('click',function(event){
+      
+      alert('hoihi')
+      console.log('hihih')
+    })
+  }) 
+
+
   // console.log(csrftoken)
   // for..of / forEach 여러 forms를 반복을 돌면서 axios를 요청할 수 있도록 함
-  forms.forEach(form => {
+   forms.forEach(form => {
     form.addEventListener('submit', function (event) {
       event.preventDefault()
       // console.log(event.target.dataset.movieId)
@@ -57,7 +145,7 @@
           const likeButton = document.querySelector(`#like-button-${movieId}`)
           // const likeCount = document.querySelector(`#like-count-${movieId}`)
           const count = response.data.count
-          likeButton.classList.toggle('btn-primary')
+          likeButton.classList.toggle('btn-secondary')
           likeButton.classList.toggle('btn-secondary')
 
           if (liked === true) {
@@ -69,7 +157,70 @@
           // likeCount.innerText = count
         })
     })
-  })
+  }) 
+</script>
+
+  
+{% endblock %}
+
+
+{% block script %}
+<script>
+  // 좋아요 기능
+  const forms = document.querySelectorAll('.like-form')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  const modalLists = document.querySelectorAll('.modalList')
+
+  modalLists.forEach(ml=>{
+    ml.addEventListener('click',function(event){
+      
+      alert('hoihi')
+      console.log('hihih')
+    })
+  }) 
+
+  const movies = document.querySelectorAll('.card-header')
+  movies.forEach(movie=>{
+    movie.addEventListener('click',function(event){
+      
+      alert('hoihi')
+      console.log('hihih')
+    })
+  }) 
+
+
+  // console.log(csrftoken)
+  // for..of / forEach 여러 forms를 반복을 돌면서 axios를 요청할 수 있도록 함
+   forms.forEach(form => {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault()
+      // console.log(event.target.dataset.movieId)
+      const movieId = event.target.dataset.movieId
+
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/movies/${movieId}/like/`,
+        headers: {'X-CSRFToken': csrftoken},
+      })
+        .then(response => {
+          console.log(response.data)
+          const liked = response.data.liked
+          const likeButton = document.querySelector(`#like-button-${movieId}`)
+          // const likeCount = document.querySelector(`#like-count-${movieId}`)
+          const count = response.data.count
+          //likeButton.classList.toggle('btn-secondary')
+          //likeButton.classList.toggle('btn-secondary')
+
+          if (liked === true) {
+            likeButton.innerText = '찜 목록에서 삭제'
+          } else {
+            likeButton.innerText = '찜 목록에 추가'
+          }
+
+          // likeCount.innerText = count
+        })
+    })
+  }) 
 
   {% comment %} // 무한스크롤 기능
   let pageNum = 2

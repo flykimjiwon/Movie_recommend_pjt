@@ -14,22 +14,27 @@ import requests
 @require_safe
 def index(request):
     movies = Movie.objects.all()
-    paginator = Paginator(movies, 10)
+    context = {
+        'movies':movies,
+    }
 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    # paginator = Paginator(movies, 10)
 
-    # /movies/?page=2 ajax 요청 => json
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        data = serializers.serialize('json', page_obj)
-        return HttpResponse(data, content_type='application/json')
-    # /movies/ 첫번째 페이지 요청 => html
-    else:
-        context = {
-            'movies': page_obj,
-        }
+    # page_number = request.GET.get('page')
+    # page_obj = paginator.get_page(page_number)
 
-        return render(request, 'movies/index.html', context)
+    # # /movies/?page=2 ajax 요청 => json
+    # if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    #     data = serializers.serialize('json', page_obj)
+    #     return HttpResponse(data, content_type='application/json')
+    # # /movies/ 첫번째 페이지 요청 => html
+    # else:
+    #     context = {
+    #         'movies': page_obj,
+    #     }
+
+    #     return render(request, 'movies/index.html', context)
+    return render(request, 'movies/index.html', context)
 
 
 @require_safe
@@ -66,8 +71,35 @@ def recommended(request):
 
 # @require_safe
 def recoreco(request):
-    context = {
+    movies = Movie.objects.all()
+    genre = {
+    '모험':'12',
+    '판타지':'14',
+    '애니메이션':'16',
+    '드라마':'18',
+    '공포':'27',
+    '액션':'28',
+    '코미디':'35',
+    '역사':'36',
+    '서부':'37',
+    '스릴러':'53',
+    '범죄':'80',
+    '다큐멘터리':'99',
+    'SF':'878',
+    '미스터리':'9648',
+    '음악':'10402',
+    '로맨스':'10749',
+    '가족':'10751',
+    '전쟁':'10752',
+    'TV 영화':'10770',
     }
+    context = {
+        'movies':movies[0],
+        'genre':genre,
+    }
+    # url='https://api.themoviedb.org/3/discover/movie?api_key=7c6377fdbf40d8566d0e591005c3dad5&language=ko-KR&with_genres='+url_key+'&sort_by=popularity.desc'
+    # response=requests.get(url).json()
+    
     return render(request, 'movies/recoreco.html', context)
 
 # @require_safe
@@ -90,7 +122,7 @@ def result(request):
     '서부':'37',
     '스릴러':'53',
     '범죄':'80',
-    '다큐멘터리':'90',
+    '다큐멘터리':'99',
     'SF':'878',
     '미스터리':'9648',
     '음악':'10402',

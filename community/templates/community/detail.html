@@ -22,7 +22,7 @@
         {% if user == comment.user %}
           <form action="{% url 'community:delete_comment' review.pk comment.pk %}" method="POST" class="d-inline">
             {% csrf_token %}
-            <input type="submit" value="DELETE">
+            <input type="submit" value="DELETE" class="btn btn-outline-light mb-4">
           </form>
         {% endif %}
     </div>
@@ -34,7 +34,7 @@
     <form action="{% url 'community:create_comment' review.pk %}" method="POST">
       {% csrf_token %}
       {{ comment_form }}
-      <input type="submit">
+      <input type="submit" class="btn btn-outline-light mb-4" value="댓글쓰기">
     </form>
   {% else %}
     <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요.]</a>

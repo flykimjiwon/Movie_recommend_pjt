@@ -1,18 +1,135 @@
+
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<h1>추천영화</h1>
 
- <form action="{% url 'movies:result' %}" method="GET">    
- {% comment %} get으로해볼까 {% endcomment %}
-{% comment %} {% csrf_token %} {% endcomment %}
+
+
+<br><br>
+{% comment %} <h1>추천영화</h1> {% endcomment %}
+
+<!-- Section: Form -->
+    <section class="">
+      <form action="{% url 'movies:result' %}" method="GET">
+        <!--Grid row-->
+        <div class="row d-flex justify-content-center">
+          <!--Grid column-->
+          <div class="col-auto">
+            <p class="pt-2">
+              <strong>보고싶은 장르를 클릭해 넣어주세요</strong>
+            </p>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-md-5 col-12">
+            <!-- Email input -->
+            <div class="form-outline form-white mb-4">
+              <input type="text" id="form5Example21" class="form-control" name="search" value="" />
+              {% comment %} 밸류있어야함 ,왜 name없으면오류나지{% endcomment %}
+              <label class="form-label" for="form5Example21">장르</label>
+            </div>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-auto">
+            <!-- Submit button -->
+            <button type="submit" id="button" class="btn btn-outline-light mb-4">
+              검색
+            </button>
+          </div>
+          <!--Grid column-->
+          <!--Grid column-->
+          <div class="col-auto">
+            <!-- Submit button -->
+            <button type="button" id="button2" class="btn btn-outline-light mb-4">
+              초기화
+            </button>
+
+            <button type="button" id="test" class="btn btn-outline-light mb-4">
+              test
+            </button>
+
+          </div>
+          <!--Grid column-->
+        </div>
+
+
+        <!--Grid row-->
+      </form>
+
+      <div class="row d-flex justify-content-center">
+      <div class="col-auto">
+      {% comment %}  {% endcomment %}
+      </div>
+      <div class="col-auto">
+      <ul>
+        {% comment %} <li class="movie">모험</li>
+        <li class="movie">판타지</li>
+        <li class="movie">애니메이션</li>
+        <li class="movie">드라마</li>
+        <li class="movie">공포</li>
+        <li class="movie">액션</li>
+        <li class="movie">코미디</li>
+        <li class="movie">역사</li>
+        <li class="movie">서부</li>
+        <li class="movie">스릴러</li>
+        <li class="movie">범죄</li>
+        <li class="movie">다큐멘터리</li>
+        <li class="movie">SF</li>
+        <li class="movie">미스터리</li>
+        <li class="movie">음악</li>
+        <li class="movie">로맨스</li>
+        <li class="movie">가족</li>
+        <li class="movie">전쟁</li>
+        <li class="movie">TV 영화</li> {% endcomment %}
+        </ul>
+      </div>
+      <div class="col-auto">
+      {% comment %}  {% endcomment %}
+      </div>
+      </div>
+
+      
+    </section>
+    <!-- Section: Form -->
+
+<div class="row row-cols-1 row-cols-md-5 g-4">
+  
+  {% comment %}  {% endcomment %}
+  {% for key,val in genre.items %}
+  <div class="col-2">
+    <div class="card movie">
+      <img
+        src="{% get_static_prefix %}images/{{val}}.jpg"
+        {% comment %} src="{% static 'images/12.jpg'%}" {% endcomment %}
+        class="card-img-top"
+        alt="..."
+      />
+      <div class="card-body" >
+      
+        <h5 class="card-title text-center">{{ key }}</h5>
+      </div>
+    </div>
+  </div>
+  {% comment %} 이거개편하다! {% endcomment %}
+  
+  {% comment %} {{key}},{{val}} {% endcomment %}
+  {% endfor %}
+
+</div>
+
+
+ {% comment %} <form action="{% url 'movies:result' %}" method="GET">    
+
         <input size="30" type="text" id="search" name="search" Placeholder="다시넣어주세용" value="보고싶은 장르를 넣어주세용" > 
-       {% comment %} <input type="submit" value="작성"> {% endcomment %}
-       <button type="submit" id="button">버튼</button>
-
+       
+       <button type="submit" id="button"  class="btn btn-light" data-mdb-ripple-color="dark">버튼</button>
+       <br><br>
   </form>
 
-        <button type="button" id="button2">초기화</button>
+        <button type="button" id="button2"  class="btn btn-light" data-mdb-ripple-color="dark">초기화</button>
         <ul>
         <li class="movie">모험</li>
         <li class="movie">판타지</li>
@@ -33,7 +150,7 @@
         <li class="movie">가족</li>
         <li class="movie">전쟁</li>
         <li class="movie">TV 영화</li>
-        </ul>
+        </ul> {% endcomment %}
 
 
   
@@ -41,24 +158,61 @@
 <script> 
 
 {% comment %} alert('hello') {% endcomment %}
-const search = document.querySelector('#search')
+{% comment %} const search = document.querySelector('#search') {% endcomment %}
+const search = document.querySelector('.form-control')
 const btn2 = document.querySelector('#button2')
+const test = document.querySelector('#test')
+
+{% comment %} const movies = document.querySelectorAll('.movie')
+ movies.forEach(movie=>{
+    movie.addEventListener('click',function(event){
+      
+      alert('hoihi')
+      console.log('hihih')
+    })
+  })  {% endcomment %}
+
 let arr = ''
+let arr2 = []
+
+test.addEventListener('mouseover',function(event){
+  btn2.click()
+  //좋아 이걸로 모달 구현
+})
+
+
 const genre = document.querySelectorAll('.movie').forEach(item =>{
   item.addEventListener('click', event => {
     //console.log('hi')
     //console.log(item.innerText)
     arr+=item.innerText+','
-    //arr+=item.innerText
+    if (arr2.includes(item.innerText)===false){
+      arr2.push(item.innerText)
+      // 아 arr.push라고함 ㅡㅡ
+    }
+    arr+=item.innerText
+    
+    let arr3  =arr2.toString()
+    
     console.log(arr)
-    search.value=arr
+    console.log(arr2)
+    search.value=arr3
+    //중복 입력 방지를위해 배열->문자열로한거 arr3을만듬
+    search.focus()
+    //한줄로가능
+    //focusMethod()
   })
 })
 
+{% comment %} focusMethod = function getFocus() {
+  document.getElementById("form5Example21").focus();
+} {% endcomment %}
 
 btn2.addEventListener('click', function (event) {
        search.value=""
        arr=''
+       arr2=[]
+       
   })
 
 

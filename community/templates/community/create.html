@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1 class="text-center">CREATE</h1>
+<br><br>
+  {% comment %} <h1 class="text-center">CREATE</h1> {% endcomment %}
   <form action="" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" type='btn' class='btn btn-primary'>
+    <input type="submit" type='btn' class='btn btn-outline-light mb-4'>
   </form>
   <hr>
-  <a href="{% url 'community:index' %}" type='btn' class='btn btn-secondary'>[back]</a>
+  <a href="{% url 'community:index' %}" type='btn' class='btn btn-outline-light mb-4'>[back]</a>
 {% endblock %}

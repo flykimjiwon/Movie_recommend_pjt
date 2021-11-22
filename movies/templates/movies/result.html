@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 style="display:inline">결과 </h1>
-<a href="{% url 'movies:recoreco' %}" type='btn' class='btn btn-secondary'>다시골라보시겠어용?</a>
+{% comment %} <h1 style="display:inline">결과 </h1> {% endcomment %}
+<br>
+<a href="{% url 'movies:recoreco' %}" type='btn' class="btn btn-outline-light mb-4" data-mdb-ripple-color="dark">다시골라보시겠어용?</a>
 <br><br>
 {% comment %} {{value}}
 <br>
@@ -36,14 +37,36 @@
   </div>
   <div class="card-body">
   {% if movie_list.poster_path|length%}
-    <img src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}" alt="" width="250">
+    {% comment %} <img src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}" alt="" width="250"> {% endcomment %}
 
+
+{% comment %} <img
+                      src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
+                      class="img-fluid"
+                    /> {% endcomment %}
+ <div
+                    class="bg-image hover-overlay ripple"
+                    data-mdb-ripple-color="light"
+                  >
+                    <img
+                      src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
+                      class="img-fluid"
+                    />
+                    <a href="#!">
+                      <div
+                        class="mask"
+                        style="background-color: rgba(251, 251, 251, 0.15)"
+                      ></div>
+                    </a>
+                  </div> 
+
+{% comment %}  {% endcomment %}
     {% else %}
 
     포스터가 없는 영화입니다
     {% endif %}
 
-    <h5 class="card-title">{{ movie_list.title }}</h5>
+    <h5 class="card-title">개봉일 - {{ movie_list.release_date}}</h5>
     <p class="card-text">
     {% if movie_list.overview|length%}
     {{ movie_list.overview|slice:":50"}}....
@@ -67,12 +90,12 @@
 {% else %}
   <h3>해당장르를 전부 가지고 있는 영화가 없어용 ㅠㅡㅠ</h3>
   {% comment %} 오늘의 추천영화를 띄워주기 {% endcomment %}
-    <a href="{% url 'movies:recoreco' %}" type='btn' class='btn btn-secondary'>다시골라보시겠어용?</a>
+    <a href="{% url 'movies:recoreco' %}" type='btn' class='btn btn-outline-light mb-4'>다시골라보시겠어용?</a>
 
 {% endif %}
  
 {% comment %} {{test}} {% endcomment %}
-  <a href="{{ url }}" type='btn' class='btn btn-secondary'>json파일체크</a>
+  <a href="{{ url }}" type='btn' class='btn btn-outline-light mb-4'>json파일체크</a>
 
 
 
