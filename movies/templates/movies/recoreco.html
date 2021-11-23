@@ -38,18 +38,19 @@
             <button type="submit" id="button" class="btn btn-outline-light mb-4">
               검색
             </button>
+            <button type="button" id="button2" class="btn btn-outline-light mb-4">
+              초기화
+            </button>
           </div>
           <!--Grid column-->
           <!--Grid column-->
           <div class="col-auto">
             <!-- Submit button -->
-            <button type="button" id="button2" class="btn btn-outline-light mb-4">
-              초기화
-            </button>
+            
 
-            <button type="button" id="test" class="btn btn-outline-light mb-4">
+            {% comment %} <button type="button" id="test" class="btn btn-outline-light mb-4">
               test
-            </button>
+            </button> {% endcomment %}
 
           </div>
           <!--Grid column-->
@@ -102,12 +103,31 @@
   {% for key,val in genre.items %}
   <div class="col-1 ">
     <div class="card movie">
-      <img
+
+<div
+                    class="bg-image hover-overlay ripple"
+                    data-mdb-ripple-color="light"
+                  >
+                    <img
+                      src="{% get_static_prefix %}images/{{val}}.jpg"
+                      class="img-fluid"
+                    />
+                    <a href="#!">
+                      <div
+                        class="mask"
+                        style="background-color: rgba(251, 251, 251, 0.15)"
+                      ></div>
+                    </a>
+                  </div>
+      
+      {% comment %} <img
         src="{% get_static_prefix %}images/{{val}}.jpg"
-        {% comment %} src="{% static 'images/12.jpg'%}" {% endcomment %}
+        src="{% static 'images/12.jpg'%}"
         class="card-img-top"
         alt="..."
-      />
+      /> {% endcomment %}
+
+
       <div class="card-body" >
       
         <p class="card-title text-center">{{ key }}</p>
@@ -162,7 +182,7 @@
 {% comment %} const search = document.querySelector('#search') {% endcomment %}
 const search = document.querySelector('.form-control')
 const btn2 = document.querySelector('#button2')
-const test = document.querySelector('#test')
+//const test = document.querySelector('#test')
 
 {% comment %} const movies = document.querySelectorAll('.movie')
  movies.forEach(movie=>{
@@ -176,10 +196,10 @@ const test = document.querySelector('#test')
 let arr = ''
 let arr2 = []
 
-test.addEventListener('mouseover',function(event){
+{% comment %} test.addEventListener('mouseover',function(event){
   btn2.click()
   //좋아 이걸로 모달 구현
-})
+}) {% endcomment %}
 
 
 const genre = document.querySelectorAll('.movie').forEach(item =>{

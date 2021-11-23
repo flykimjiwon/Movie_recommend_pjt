@@ -18,7 +18,7 @@
 <th>제목</th>
 <th>작성시간</th>
 <th>작성자</th>
-<th>좋아요수</th>
+{% comment %} <th>좋아요수</th> {% endcomment %}
 {% comment %} <th>좋아요</th> {% endcomment %}
 </tr>
 </thead>
@@ -30,7 +30,7 @@
 <td><a href="{% url 'community:detail' review.pk %}">{{ review.title }}</a></td>
 <td>{{ review.created_at }}</td>
 <td><a href="{% url 'accounts:profile' review.user.username %}">{{ review.user }}</a></td>
-<td><span id="like-count-{{ review.pk }}">{{ review.like_users.all|length }}</span></td>
+{% comment %} <td><span id="like-count-{{ review.pk }}">{{ review.like_users.all|length }}</span></td> {% endcomment %}
 {% comment %} <td>123</td> {% endcomment %}
 </tr>
 {% endfor %}
@@ -88,11 +88,12 @@
     ...
 {% endfor %} {% endcomment %}
 
-<div class="pagination justify-content-center">
-    <span class="step-links">
+<nav class="pagination justify-content-center" aria-label="Page navigation example">
+    <ul class="step-links pagination">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; 처음페이지 /</a>
-            <a href="?page={{ page_obj.previous_page_number }}" >이전페이지</a>
+        <li class="page-item"><a href="?page=1" class="page-link">&laquo; 처음페이지 /</a></li>
+        <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">이전페이지</a></li>
+
         {% endif %}
 
         <span class="current">
@@ -100,11 +101,11 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">다음페이지</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">/ 마지막페이지 &raquo;</a>
+            <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">다음페이지</a></li>
+            <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">/ 마지막페이지 &raquo;</a></li>
         {% endif %}
-    </span>
-</div>
+    </ul>
+</nav>
 {% endblock %}
 
 

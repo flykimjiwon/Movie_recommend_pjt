@@ -28,13 +28,13 @@
 
 
     
-    <div class="col-3">
+    <div class="col-2">
       <div class="card border-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">
+  {% comment %} <div class="card-header">
   {{ movie_list.title }}
   <a href="{% url 'movies:detail2' movie_list.id %}" >detail</a>
 
-  </div>
+  </div> {% endcomment %}
   <div class="card-body">
   {% if movie_list.poster_path|length%}
     {% comment %} <img src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}" alt="" width="250"> {% endcomment %}
@@ -47,6 +47,7 @@
  <div
                     class="bg-image hover-overlay ripple"
                     data-mdb-ripple-color="light"
+                    id="mouse-enter"
                   >
                     <img
                       src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
@@ -60,18 +61,48 @@
                     </a>
                   </div> 
 
+                  <button type="button" id="mouseOver{{movie_list.id}}" class="d-none btn btn-outline-light mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{movie_list.id}}">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{movie_list.id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{movie_list.id}}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel{{movie_list.id}}">{{movie_list.title}} {{movie_list.release_date}}개봉</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <img
+                      src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
+                      class="img-fluid"
+                    />
+                    
+        {{movie_list.overview}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-light mb-4" data-bs-dismiss="modal">닫기</button>
+        {% comment %} <a href="{% url 'movies:detail' movie_list.id %}" >detail</a> {% endcomment %}
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
 {% comment %}  {% endcomment %}
     {% else %}
 
     포스터가 없는 영화입니다
     {% endif %}
 
-    <h5 class="card-title">개봉일 - {{ movie_list.release_date}}</h5>
+    {% comment %} <h5 class="card-title">개봉일 - {{ movie_list.release_date}}</h5> {% endcomment %}
     <p class="card-text">
     {% if movie_list.overview|length%}
     {{ movie_list.overview|slice:":50"}}....
     {% else %}
-    줄거리가 없는 영화입니다
+    줄거리가 제공되지 않는 영화입니다
     {% endif %}
     </p>
     {% comment %} 슬라이씽 {% endcomment %}
@@ -95,7 +126,7 @@
 {% endif %}
  
 {% comment %} {{test}} {% endcomment %}
-  <a href="{{ url }}" type='btn' class='btn btn-outline-light mb-4'>json파일체크</a>
+  {% comment %} <a href="{{ url }}" type='btn' class='btn btn-outline-light mb-4'>json파일체크</a> {% endcomment %}
 
 
 
@@ -104,6 +135,16 @@
 
 
 <script> 
+const modalButtons = document.querySelectorAll('.d-none')
+const modalEnters = document.querySelectorAll('#mouse-enter')
+modalEnters.forEach(function(element,index){
+    
+    element.addEventListener('click',function(){
+    console.log(index)
+    
+    modalButtons[index].click()// 오...미친 이 사용법이 되네연?
+    })
+})
 
 </script>
 

@@ -61,7 +61,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel{{movie_list.id}}">{{movie_list.title}}</h5>
+        <h5 class="modal-title" id="exampleModalLabel{{movie_list.id}}">{{movie_list.title}} {{movie_list.release_date}}개봉</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -69,6 +69,7 @@
                       src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
                       class="img-fluid"
                     />
+                    
         {{movie_list.overview}}
       </div>
       <div class="modal-footer">
@@ -94,7 +95,7 @@
     {% if movie_list.overview|length%}
     {{ movie_list.overview|slice:":50"}}....
     {% else %}
-    줄거리가 없는 영화입니다
+    줄거리가 제공되지 않는 영화입니다
     {% endif %}
     </p>
     {% comment %} 슬라이씽 {% endcomment %}
