@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% comment %} <h1>UPDATE</h1> {% endcomment %}
   <form action="{% url 'community:update' review.pk %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
