@@ -3,13 +3,19 @@ from django.views.decorators.http import require_GET, require_POST, require_http
 from .models import Review, Comment
 from .forms import ReviewForm, CommentForm
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 
 @require_GET
 def index(request):
     reviews = Review.objects.order_by('-pk')
+    contact_list = Review.objects.all()
+    paginator = Paginator(reviews,5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         'reviews': reviews,
+        'page_obj':page_obj,
     }
     return render(request, 'community/index.html', context)
 

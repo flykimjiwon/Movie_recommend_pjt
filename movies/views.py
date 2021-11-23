@@ -13,7 +13,13 @@ import requests
 # Create your views here.
 @require_safe
 def index(request):
-    movies = Movie.objects.all()
+    #movies = Movie.objects.all()
+    movies = Movie.objects.order_by('?')
+    # 미쳤다~~ 이렇게 되는구낭
+
+    #my_list = list(movies)
+    #random.shuffle(my_list)
+    # movies = random.shuffle(movies)
     context = {
         'movies':movies,
     }
@@ -75,7 +81,7 @@ def recoreco(request):
     genre = {
     '모험':'12',
     '판타지':'14',
-    '애니메이션':'16',
+    '애니':'16',
     '드라마':'18',
     '공포':'27',
     '액션':'28',
@@ -84,14 +90,14 @@ def recoreco(request):
     '서부':'37',
     '스릴러':'53',
     '범죄':'80',
-    '다큐멘터리':'99',
+    '다큐':'99',
     'SF':'878',
-    '미스터리':'9648',
+    '추리':'9648',
     '음악':'10402',
     '로맨스':'10749',
     '가족':'10751',
     '전쟁':'10752',
-    'TV 영화':'10770',
+    'TV':'10770',
     }
     context = {
         'movies':movies[0],
@@ -113,7 +119,7 @@ def result(request):
     genre = {
     '모험':'12',
     '판타지':'14',
-    '애니메이션':'16',
+    '애니':'16',
     '드라마':'18',
     '공포':'27',
     '액션':'28',
@@ -122,14 +128,14 @@ def result(request):
     '서부':'37',
     '스릴러':'53',
     '범죄':'80',
-    '다큐멘터리':'99',
+    '다큐':'99',
     'SF':'878',
-    '미스터리':'9648',
+    '추리':'9648',
     '음악':'10402',
     '로맨스':'10749',
     '가족':'10751',
     '전쟁':'10752',
-    'TV 영화':'10770',
+    'TV':'10770',
     }
     url_key=''
     for i in range(len(result_key)-1):

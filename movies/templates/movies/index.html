@@ -14,13 +14,13 @@
 
 
     
-    <div class="col-3">
+    <div class="col-2">
       <div class="card border-light mb-3" style="max-width: 18rem;">
-  <div class="card-header modalList">
+  {% comment %} <div class="card-header modalList">
   {{ movie_list.title }}
   <a href="{% url 'movies:detail' movie_list.id %}" >detail</a>
 
-  </div>
+  </div> {% endcomment %}
   <div class="card-body">
   {% if movie_list.poster_path|length%}
     {% comment %} <img src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"  alt="" width="250"> {% endcomment %}
@@ -28,10 +28,12 @@
 <div
                     class="bg-image hover-overlay ripple"
                     data-mdb-ripple-color="light"
+                    id="mouse-enter"
                   >
                     <img
                       src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
                       class="img-fluid"
+                      
                     />
                     <a href="#!">
                       <div
@@ -48,7 +50,33 @@
     {% endif %}
 
     {% comment %} <h5 class="card-title">개봉일 - {{ movie_list.release_date}}</h5> {% endcomment %}
-     <form class="like-form" data-movie-id="{{ movie_list.pk }}">
+    <!-- Button trigger modal -->
+    {% comment %} d-none으로 감춰서 마우스오버로만들자 {% endcomment %}
+<button type="button" id="mouseOver{{movie_list.id}}" class="d-none btn btn-outline-light mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{movie_list.id}}">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{movie_list.id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{movie_list.id}}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel{{movie_list.id}}">{{movie_list.title}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <img
+                      src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
+                      class="img-fluid"
+                    />
+        {{movie_list.overview}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-light mb-4" data-bs-dismiss="modal">닫기</button>
+        <a href="{% url 'movies:detail' movie_list.id %}"><button type="button" class="btn btn-outline-light mb-4">상세페이지</button></a>
+        {% comment %} <a href="{% url 'movies:detail' movie_list.id %}" >detail</a> {% endcomment %}
+
+        <form class="like-form" data-movie-id="{{ movie_list.pk }}">
           {% csrf_token %}
           {% if user in movie_list.like_users.all %}
               <button id="like-button-{{ movie_list.pk }}" class='btn btn-outline-light mb-4'>찜 목록에서 삭제</button>
@@ -56,6 +84,12 @@
               <button id="like-button-{{ movie_list.pk }}" class='btn btn-outline-light mb-4'>찜 목록에 추가</button>
             {% endif %}
         </form> 
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %}  {% endcomment %}
+     
     <p class="card-text">
     {% if movie_list.overview|length%}
     {{ movie_list.overview|slice:":50"}}....
@@ -105,8 +139,57 @@
 
 <script>
 const forms = document.querySelectorAll('.like-form')
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-  const modalLists = document.querySelectorAll('.modalList')
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+const modalButtons = document.querySelectorAll('.d-none')
+//#mouseOver{{movie_list.id}} 일케잡음 안됫엇지!! 아아, 그리고 id말고 class로하니까잡히네..?뭐지
+//cnt 주면 글케잡아도될듯\
+// 아니죠 인덱스를 알아야죠 modalEnters의 각 인덱스
+
+const modalEnters = document.querySelectorAll('#mouse-enter')
+//호버되는 이미지말고 바깥 div바꿔주고 하는거 중요 체크 ㅇㅇ
+
+{% comment %} modalEnters.forEach(function(currentValue,index,array){
+ 
+  console.log(currentValue)
+  console.log(index)
+  console.log(array)
+}) {% endcomment %}
+
+modalEnters.forEach(function(element,index){
+    
+    element.addEventListener('click',function(){
+    console.log(index)
+    
+    modalButtons[index].click()// 오...미친 이 사용법이 되네연?
+    })
+})
+
+
+{% comment %} modalEnters.forEach(modalEnter=>{
+    modalEnter.addEventListener('mouseenter',function(event,index,array){
+      console.log('hi')
+      //modalButtons[cnt].click()
+      //console.log(event)
+      //console.log(index)
+      //console.log(array)
+      //console.log(modalEnter.indexOf().call)
+      //인덱스구하기
+      //console.log(event.target.dataset)
+    })
+  }) {% endcomment %}
+console.log('hihi')
+
+  {% comment %} modalButtons.forEach(modalButton=>{
+    modalEnters.forEach(modalEnter=>{
+      modalEnter.addEventListener('mouseenter',function(event){
+        modalButton.click()
+        //console.log('by')
+    })
+    })
+    
+  })  {% endcomment %}
+
+  {% comment %} const modalLists = document.querySelectorAll('.modalList')
 
   modalLists.forEach(ml=>{
     ml.addEventListener('click',function(event){
@@ -123,7 +206,7 @@ const forms = document.querySelectorAll('.like-form')
       alert('hoihi')
       console.log('hihih')
     })
-  }) 
+  })  {% endcomment %}
 
 
   // console.log(csrftoken)
@@ -169,24 +252,25 @@ const forms = document.querySelectorAll('.like-form')
   // 좋아요 기능
   const forms = document.querySelectorAll('.like-form')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-  const modalLists = document.querySelectorAll('.modalList')
+  
+  //const modalLists = document.querySelectorAll('.modalList')
 
-  modalLists.forEach(ml=>{
+  {% comment %} modalLists.forEach(ml=>{
     ml.addEventListener('click',function(event){
       
       alert('hoihi')
       console.log('hihih')
     })
-  }) 
+  })  {% endcomment %}
 
-  const movies = document.querySelectorAll('.card-header')
-  movies.forEach(movie=>{
+  //const movies = document.querySelectorAll('.card-header')
+  {% comment %} movies.forEach(movie=>{
     movie.addEventListener('click',function(event){
       
       alert('hoihi')
       console.log('hihih')
     })
-  }) 
+  })  {% endcomment %}
 
 
   // console.log(csrftoken)

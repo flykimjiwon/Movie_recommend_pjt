@@ -33,7 +33,7 @@
       <h2 class='fw-bold'>{{ movie.title }}</h2>
       <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-secondary'>Detail</a>
       <br> {% endcomment %}
-      <div class="col-3" id="mbmb">
+      <div class="col-2" id="mbmb">
       <div class="card border-light mb-3" style="max-width: 18rem;">
   <div class="card-header">
 {{ movie.title }}
@@ -71,6 +71,7 @@
     {% endif %}
   {% endfor %}
  
+  
 
 {% endfor %}
  </div> 
@@ -88,6 +89,8 @@ const movies = document.querySelectorAll('#mbmb')
     })
   }) 
 </script> {% endcomment %}
+//이거 없어서 오류낫던것도 체크
+</script>
 
 {% endblock %}
 

@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<br><br>
+<br>
+{% comment %} {{page_obj}} {% endcomment %}
+{% comment %} 정렬 어거지로 ㅇㅇ {% endcomment %}
+<div class="d-flex flex-row-reverse">
+<a class="navbar-brand" href="{% url 'community:create'%}"><button type="button" id="test" class="btn btn-outline-light mb-4 float-right" >
+              글쓰기
+            </button></a>
+</div>
+
+
 <table class="table table-striped table-hover">
 <thead>
 <tr>
@@ -14,7 +23,7 @@
 </tr>
 </thead>
 <tbody>
-{% for review in reviews %}
+{% for review in page_obj %}
 <tr>
 <td>{{ review.pk }}</td>
 
@@ -53,6 +62,49 @@
     <a href="{% url 'community:detail' review.pk %}" type='btn' class='btn btn-outline-light mb-4'>detail</a>
     <hr>
   {% endfor %} {% endcomment %}
+
+  {% comment %} <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+  justify-content-md-center이건 임의추가
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav> {% endcomment %}
+{% comment %} {% for contact in page_obj %}
+    {# Each "contact" is a Contact model object. #}
+    {{contact.title}}
+    {{ contact.full_name|upper }}<br>
+    ...
+{% endfor %} {% endcomment %}
+
+<div class="pagination justify-content-center">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; 처음페이지 /</a>
+            <a href="?page={{ page_obj.previous_page_number }}" >이전페이지</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">다음페이지</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">/ 마지막페이지 &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
 
 
