@@ -9,12 +9,19 @@ from django.http import HttpResponse, JsonResponse
 # from random import randint
 import random
 import requests
+from django.contrib.auth import get_user_model
+# 첫페이지에서 찜한 영화 불러오기
 
 # Create your views here.
 @require_safe
 def index(request):
+    username = request.user
+    person = get_object_or_404(get_user_model(), username=username)
+    # person = get_object_or_404(get_user_model())
+
     #movies = Movie.objects.all()
     movies = Movie.objects.order_by('?')
+    
     # 미쳤다~~ 이렇게 되는구낭
 
     #my_list = list(movies)
@@ -22,6 +29,8 @@ def index(request):
     # movies = random.shuffle(movies)
     context = {
         'movies':movies,
+        # 'person':person,
+        'person':person,
     }
 
     # paginator = Paginator(movies, 10)

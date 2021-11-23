@@ -98,13 +98,15 @@
     {% endif %}
 
     {% comment %} <h5 class="card-title">개봉일 - {{ movie_list.release_date}}</h5> {% endcomment %}
-    <p class="card-text">
+
+    {% comment %} <p class="card-text">
     {% if movie_list.overview|length%}
     {{ movie_list.overview|slice:":50"}}....
     {% else %}
     줄거리가 제공되지 않는 영화입니다
     {% endif %}
-    </p>
+    </p> {% endcomment %}
+
     {% comment %} 슬라이씽 {% endcomment %}
   </div>
 </div>
