@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>{{ person.username }}의 프로필 페이지</h1>
-  {% with followings=person.followings.all followers=person.followers.all %}
+  {% comment %} {% with followings=person.followings.all followers=person.followers.all %}
     <div id="follow-count">
       <div class='fs-4'>팔로잉 수 : {{ followings|length }} / 팔로워 수 : {{ followers|length }}</div>
     </div>
@@ -18,50 +18,80 @@
         </form>
       </div>
     {% endif %}
-  {% endwith %}
+  {% endwith %} {% endcomment %}
   <br>
 {% comment %} {{url_key|length}} {% endcomment %}
 
+  <div class="container">
+    <div class='row'>
+      <div class="box col-4">
+        {% comment %} <p>  {{result}}</p> {% endcomment %}
+        {% if url_key|length %}
+        <div class="card" style="width: 20rem;">
+          <img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{result.title}}</h5>
+            <p class="card-text">{{result.overview|slice:":50"}}</p>
+            <a href="{% url 'movies:detail2' result.id %}" class="btn btn-secondary">상세페이지로...</a>
+          </div>
+        </div>
+        <div>{{ person.username}} 님의 찜목록 기반 추천영화</div>
+        {% else %}
+        찜 목록이 없어서 추천할 수 없어용
+        {% endif %}
+      </div>
 
+      <div class="box col-8">
+        <h3>{{ person.username }}가 찜한 영화</h3>
+        {% if url_key|length%}
+        {% for movie in person.like_movies.all %}
+        <li>
+          <div class='fs-5 d-inline'>{{ movie.title }}</div>
+                  {% comment %} {{movie.genres.all}}  {% endcomment %}
 
+          {% comment %} {{movie.genres}} {% endcomment %}
+          <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-light d-inline'>detail</a>    
+        </li>
+        {% endfor %}
+        <br>
+        {% else %}
+        찜 목록이 없어용
+        {% endif %}
 
+        <h3>{{ person.username }}'s 게시글</h3>
+        <ul>
+          {% for review in person.review_set.all %}
+          <li>
+            <div class='fs-5 d-inline'>제목 : {{ review.title }}</div>
+            <a href="{% url 'community:detail' review.pk %}" type='btn' class='btn btn-secondary d-inline'>바로가기</a>
+          </li>
+          {% endfor %}
+        </ul>
+        <br>
 
-  <h3>{{ person.username}} 님의 찜목록 기반 추천영화</h3>
-  {% comment %} <p>  {{result}}</p> {% endcomment %}
-  {% if url_key|length%}
- <div class="card" style="width: 18rem;">
-  <img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">{{result.title}}</h5>
-    <p class="card-text">{{result.overview|slice:":50"}}</p>
-    <a href="{% url 'movies:detail2' result.id %}" class="btn btn-secondary">상세페이지로...</a>
+        <h3>{{ person.username }}'s 댓글</h3>
+        {% for comment in person.comment_set.all %}
+          <div>{{ comment.content }}</div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
-</div>
-{% else %}
-찜 목록이 없어서 추천할 수 없어용
-{% endif %}
-   
-   
+  
 
-
- 
-
-
+{% comment %} 
   <h3>{{ person.username }}가 찜한 영화</h3>
     {% if url_key|length%}
     {% for movie in person.like_movies.all %}
     <li>
       <div class='fs-5 d-inline'>{{ movie.title }}</div>
-              {% comment %} {{movie.genres.all}}  {% endcomment %}
-
-      {% comment %} {{movie.genres}} {% endcomment %}
+      {{movie.genres}}
       <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-light d-inline'>detail</a>    
     </li>
-  {% endfor %}
-  <br>
-{% else %}
-찜 목록이 없어용
-{% endif %}
+    {% endfor %}
+    <br>
+    {% else %}
+    찜 목록이 없어용
+    {% endif %} {% endcomment %}
   
     
  
@@ -73,7 +103,7 @@
   {{genre}}
   {{genre3}} {% endcomment %}
   {% comment %} {{num}}
-{{genre}}
+  {{genre}}
   {{genre2.name}} {% endcomment %}
   {% comment %} {{person}} {% endcomment %}
   {% comment %} {{movie_list}} {% endcomment %}
@@ -85,9 +115,7 @@
   {% endfor%} {% endcomment %}
 
 
-  
-
-  <h3>{{ person.username }}'s 게시글</h3>
+  {% comment %} <h3>{{ person.username }}'s 게시글</h3>
   <ul>
     {% for review in person.review_set.all %}
     <li>
@@ -102,7 +130,7 @@
   {% for comment in person.comment_set.all %}
     <div>{{ comment.content }}</div>
   {% endfor %}
-  <hr>
+  <hr> {% endcomment %}
   
 {% endblock content %}
 

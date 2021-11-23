@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% comment %} <h1>UPDATE</h1> {% endcomment %}
+  <form action="{% url 'community:update' review.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" type='btn' class='btn btn-outline-light mb-4' value="수정">
+  </form>
+  <hr>
+  <a href="{% url 'community:index' %}" type='btn' class='btn btn-outline-light mb-4'>[back]</a>
+{% endblock content %}

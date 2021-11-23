@@ -11,6 +11,15 @@
   <p>작성 시각: {{ review.created_at }}</p>
   <p>수정 시각: {{ review.updated_at }}</p>
   <hr>
+  
+  {% if user == review.user %}
+    <a href="{% url 'community:update' review.pk %}" type='btn' class='btn btn-outline-light mb-4'>수정하기</a>
+    <form action="{% url 'community:delete' review.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" class='btn btn-outline-light mb-4' value="삭제하기">
+  </form>
+  {% endif %}
+
   <h4 class='fw-bold'>댓글 목록</h4>
   {% if comments|length %}
     <p><b>{{ comments|length }}개의 댓글이 있습니다.</b></p>

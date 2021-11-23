@@ -36,6 +36,35 @@ def create(request):
     }
     return render(request, 'community/create.html', context)
 
+@require_POST
+def delete(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    if request.user.is_authenticated:
+        if request.user == review.user: 
+            review.delete()
+            return redirect('community:index')
+    return redirect('community:detail', review.pk)
+
+
+@require_http_methods(['GET', 'POST'])
+def update(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    if request.user == review.user:
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, instance=review)
+            if form.is_valid():
+                form.save()
+                return redirect('community:detail', review.pk)
+        else:
+            form = ReviewForm(instance=review)
+    else:
+        return redirect('community:index')
+    context = {
+        'review': review,
+        'form': form,
+    }
+    return render(request, 'community/update.html', context)
+
 
 @require_GET
 def detail(request, review_pk):
