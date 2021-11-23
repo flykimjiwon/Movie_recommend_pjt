@@ -4,10 +4,13 @@
 <br>
 {% comment %} {{page_obj}} {% endcomment %}
 {% comment %} 정렬 어거지로 ㅇㅇ {% endcomment %}
-<div class="d-flex flex-row-reverse">
-<a class="navbar-brand" href="{% url 'community:create'%}"><button type="button" id="test" class="btn btn-outline-light mb-4 float-right" >
-              글쓰기
-            </button></a>
+{% comment %} <div class="d-flex flex-row-reverse"> {% endcomment %}
+<div class='d-flex justify-content-end'>
+  <a class="navbar-brand" href="{% url 'community:create'%}">
+    <button type="button" id="test" class="btn btn-outline-light mb-4 float-right" >
+    글쓰기
+    </button>
+  </a>
 </div>
 
 
@@ -38,56 +41,8 @@
 
 </table>
 
-
 <br><br>
   
-  {% comment %} {% for review in reviews %}
-    <p>작성자 : <a href="{% url 'accounts:profile' review.user.username %}">{{ review.user }}</a></p>
-    <p>글 번호: {{ review.pk }}</p>
-    <p>글 제목: {{ review.title }}</p>
-    <p>글 내용: {{ review.content }}</p>
-
-    <form class="like-form" data-article-id="{{ review.pk }}">
-      {% csrf_token %}
-      {% if user in review.like_users.all %}
-          <button id="like-button-{{ review.pk }}" class='btn btn-outline-light mb-4'>좋아요 취소</button>
-        {% else %}
-          <button id="like-button-{{ review.pk }}" class='btn btn-outline-light mb-4'>좋아요</button>
-        {% endif %}
-      </form>
-      <p>
-        <span id="like-count-{{ review.pk }}">{{ review.like_users.all|length }}</span>명이 이 글을 좋아합니다.
-      </p>
-  
-    <a href="{% url 'community:detail' review.pk %}" type='btn' class='btn btn-outline-light mb-4'>detail</a>
-    <hr>
-  {% endfor %} {% endcomment %}
-
-  {% comment %} <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-  justify-content-md-center이건 임의추가
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav> {% endcomment %}
-{% comment %} {% for contact in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    {{contact.title}}
-    {{ contact.full_name|upper }}<br>
-    ...
-{% endfor %} {% endcomment %}
-
 <nav class="pagination justify-content-center" aria-label="Page navigation example">
     <ul class="step-links pagination">
         {% if page_obj.has_previous %}

@@ -9,6 +9,7 @@ from .forms import CustomUserCreationForm
 from django.http import JsonResponse
 import random
 import requests
+from movies.models import Movie
 
 @require_http_methods(['GET', 'POST'])
 def signup(request):
@@ -85,6 +86,7 @@ def profile(request, username):
     random_len = len(result)
     result_num = random.randrange(0,random_len)
 
+    movies = Movie.objects.order_by('?')
     context = {
         'person': person,
         'movie_list':movie_list,
@@ -97,6 +99,7 @@ def profile(request, username):
         'cnt':cnt,
         'url_key':url_key,
         'result':result[result_num],
+        'movies': movies,
     }
     return render(request, 'accounts/profile.html', context)
 

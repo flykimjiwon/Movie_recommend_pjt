@@ -7,5 +7,3 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = UserCreationForm.Meta.fields
-
-# 위젯 로그인,회원가입폼

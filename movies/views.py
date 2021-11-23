@@ -3,61 +3,33 @@ from django.views.decorators.http import require_safe, require_POST
 
 from .models import Movie, MovieComment
 from .forms import MovieCommentForm
-from django.core.paginator import Paginator
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
-# from random import randint
-import random
-import requests
 from django.contrib.auth import get_user_model
-# 첫페이지에서 찜한 영화 불러오기
+import requests
 
 # Create your views here.
 @require_safe
 def index(request):
     username = request.user
     person = get_object_or_404(get_user_model(), username=username)
-    # person = get_object_or_404(get_user_model())
-
-    #movies = Movie.objects.all()
     movies = Movie.objects.order_by('?')
-    
-    # 미쳤다~~ 이렇게 되는구낭
 
-    #my_list = list(movies)
-    #random.shuffle(my_list)
-    # movies = random.shuffle(movies)
     context = {
-        'movies':movies,
-        # 'person':person,
         'person':person,
+        'movies':movies,
     }
-
-    # paginator = Paginator(movies, 10)
-
-    # page_number = request.GET.get('page')
-    # page_obj = paginator.get_page(page_number)
-
-    # # /movies/?page=2 ajax 요청 => json
-    # if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-    #     data = serializers.serialize('json', page_obj)
-    #     return HttpResponse(data, content_type='application/json')
-    # # /movies/ 첫번째 페이지 요청 => html
-    # else:
-    #     context = {
-    #         'movies': page_obj,
-    #     }
-
-    #     return render(request, 'movies/index.html', context)
     return render(request, 'movies/index.html', context)
 
 
 @require_safe
 def detail(request, movie_pk):
+    movies = Movie.objects.all()
     movie = get_object_or_404(Movie, pk=movie_pk)
     comment_form = MovieCommentForm()
     comments = movie.moviecomment_set.all()
     context = {
+        'movies': movies,
         'movie': movie,
         'url':"https://image.tmdb.org/t/p/original"+movie.poster_path,
         'comment_form': comment_form,
@@ -76,11 +48,9 @@ def detail2(request, movie_list_id):
 
 @require_safe
 def recommended(request):
-    movies = Movie.objects.all()
-    random_nums = random.sample(range(100),10)
+    movie = Movie.objects.order_by('?')[0]
     context = {
-        'movies': movies,
-        'random_nums': random_nums,
+        'movie': movie,
     }
     return render(request, 'movies/recommended.html', context)
 
@@ -228,6 +198,12 @@ def like(request, movie_pk):
         return JsonResponse(context)
     return redirect('accounts:login')
 
-
-
-
+@require_POST
+def unlike(request, movie_pk):
+    if request.user.is_authenticated:
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        if movie.like_users.filter(pk=request.user.pk).exists():
+            movie.like_users.remove(request.user) # 좋아요 취소
+        else:   # 없다면 좋아요 하기
+            movie.like_users.add(request.user)
+        return redirect('accounts:profile', request.user)

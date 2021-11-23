@@ -18,8 +18,6 @@ from django.urls import path, include
 from movies import views
 
 urlpatterns = [
-    # path('accounts/', include('django.contrib.auth.urls')),
-    # 커스텀 로그인,가입페이지쓰기위함
     path('', views.index),
     path('admin/', admin.site.urls),
     path('community/', include('community.urls')),

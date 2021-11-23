@@ -1,113 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<br><br>
-{% comment %} <h1>추천영화</h1> {% endcomment %}
-
- {% comment %} <div class="row">
-<div class="col-3">
-      <div class="card border-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">
-영화제목
-디테일이동
-</div>
-  <div class="card-body">
-포스터이미지
-<h5 class="card-title">개봉일 - </h5>
-    <p class="card-text">
-</p>
-줄거리
- </div>
-</div>
-    </div>
-    
-    </div> {% endcomment %}
-
-
+<br>
 <div class="row">
-{% for num in random_nums %}
-
-  {% for movie in movies %}
-    {% if movie.pk == num %}
-      {% comment %} <hr>
-      <h2 class='fw-bold'>{{ movie.title }}</h2>
-      <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-secondary'>Detail</a>
-      <br> {% endcomment %}
-      <div class="col-2" id="mbmb">
-      <div class="card border-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">
-{{ movie.title }}
-<a href="{% url 'movies:detail' movie.pk %}" type='btn' >Detail</a>
-</div>
-  <div class="card-body">
-
-    {% comment %} <img src="https://image.tmdb.org/t/p/original/{{movie.poster_path}}" alt="" width="250"> {% endcomment %}
-
-<div
-                    class="bg-image hover-overlay ripple"
-                    data-mdb-ripple-color="light"
-                  >
-                    <img
-                      src="https://image.tmdb.org/t/p/original/{{movie.poster_path}}"
-                      class="img-fluid"
-                    />
-                    <a href="#!">
-                      <div
-                        class="mask"
-                        style="background-color: rgba(251, 251, 251, 0.15)"
-                      ></div>
-                    </a>
-                  </div>
-
-{% comment %}  {% endcomment %}
-{% comment %} <button id="mbmb">test</button> {% endcomment %}
-<h5 class="card-title">개봉일 - {{ movie.release_date}}</h5>
-    <p class="card-text">
-</p>
-{{ movie.overview|slice:":50"}}....
- </div>
-</div>
+  <div class="col-6 mx-auto" id="mbmb">
+    <div class="card border-light mb-3">
+      <div class="card-header">
+        <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='text-light fs-3'>{{ movie.title }}</a>
+      </div>
+      <div class="card-body">
+        <div
+          class="bg-image hover-overlay ripple"
+          data-mdb-ripple-color="light"
+        >
+          <img
+            src="https://image.tmdb.org/t/p/original/{{movie.poster_path}}"
+            class="img-fluid"
+          />
+          <a href="{% url 'movies:detail' movie.pk %}">
+            <div
+              class="mask"
+              style="background-color: rgba(251, 251, 251, 0.15)"
+            ></div>
+          </a>
+        </div>
+      </div>
     </div>
-    {% endif %}
-  {% endfor %}
- 
-  
-
-{% endfor %}
+  </div>
  </div> 
- <script>
-{% comment %} const test = document.querySelector('#mbmb2')
-test.addEventListener('click',function(){
-  console.log('hihi')
-})
-const movies = document.querySelectorAll('#mbmb')
- movies.forEach(movie=>{
-    movie.addEventListener('click',function(event){
-      
-      alert('hoihi')
-      console.log('hihih')
-    })
-  }) 
-</script> {% endcomment %}
-//이거 없어서 오류낫던것도 체크
-</script>
 
 {% endblock %}
 
-{% comment %} {% block script %}
-<script>
-const test = document.querySelector('#mbmb2')
-test.addEventListener('click',function(){
-  console.log('hihi')
-})
-const movies = document.querySelectorAll('#mbmb')
- movies.forEach(movie=>{
-    movie.addEventListener('click',function(event){
-      
-      alert('hoihi')
-      console.log('hihih')
-    })
-  }) 
-</script>
-{% endblock %} {% endcomment %}
-{% comment %} 여기 blockscript랑 script오류체크하기 휴우 {% endcomment %}

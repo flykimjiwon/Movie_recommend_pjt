@@ -1,175 +1,94 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% comment %} {{person}} {% endcomment %}
-  <h1>{{ person.username }}의 프로필 페이지</h1>
-  {% comment %} {% with followings=person.followings.all followers=person.followers.all %}
-    <div id="follow-count">
-      <div class='fs-4'>팔로잉 수 : {{ followings|length }} / 팔로워 수 : {{ followers|length }}</div>
-    </div>
-    {% if user != person %}
-      <div>
-        <form id="follow-form" data-user-id="{{ person.pk }}">
-          {% csrf_token %}
-          {% if user in followers %}
-            <button>언팔로우</button>
-          {% else %}
-            <button>팔로우</button>
-          {% endif %}
-        </form>
-      </div>
-    {% endif %}
-  {% endwith %} {% endcomment %}
   <br>
-{% comment %} {{url_key|length}} {% endcomment %}
+  <h1><i class="fas fa-user-alt"></i> 프로필 - {{ person.username }}</h1>
+  <br>
 
   <div class="container">
     <div class='row'>
-      <div class="box col-4">
-        {% comment %} <p>  {{result}}</p> {% endcomment %}
+      <div class="box col-4"> 
         {% if url_key|length %}
-        <div class="card" style="width: 20rem;">
-          <img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class="card-img-top" alt="...">
+        <div class="card w-100">
+          <img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class="card-img-top" alt="No Poster">
+          {% comment %} 포스터 안뜨는 것도 있음 {% endcomment %}
           <div class="card-body">
-            <h5 class="card-title">{{result.title}}</h5>
-            <p class="card-text">{{result.overview|slice:":50"}}</p>
-            <a href="{% url 'movies:detail2' result.id %}" class="btn btn-secondary">상세페이지로...</a>
+            <h5 class="card-title d-inline-block">{{result.title}}</h5>
+            <a href="{% url 'movies:detail2' result.id %}" class='d-inline-block'>
+              <i class="fas fa-info-circle fa-lg text-light"></i>
+            </a>
+            <p class="card-text">{{result.overview|slice:":50"}}...</p>
+            
+            <div class='fw-light d-inline-block' style='color:gray'>찜 목록을 기반으로 추천하는 영화입니당!</div>
           </div>
         </div>
-        <div>{{ person.username}} 님의 찜목록 기반 추천영화</div>
         {% else %}
         찜 목록이 없어서 추천할 수 없어용
         {% endif %}
       </div>
 
       <div class="box col-8">
-        <h3>{{ person.username }}가 찜한 영화</h3>
+        <h3><i class="fas fa-heart text-danger "></i> 찜한 영화들</h3>
+        <ul>
         {% if url_key|length%}
-        {% for movie in person.like_movies.all %}
-        <li>
-          <div class='fs-5 d-inline'>{{ movie.title }}</div>
-                  {% comment %} {{movie.genres.all}}  {% endcomment %}
-
-          {% comment %} {{movie.genres}} {% endcomment %}
-          <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-light d-inline'>detail</a>    
-        </li>
-        {% endfor %}
-        <br>
+          {% for movie in person.like_movies.all %}
+          <li>
+            <div class='fs-5 d-inline'>
+              <a class='text-light' href='{% url 'movies:detail' movie.pk %}'>{{ movie.title }}</a>
+            </div>
+            {% if user == person %}
+            <form action="{% url 'movies:unlike' movie.pk %}" method="POST" class="d-inline">
+              {% csrf_token %}
+              <button class="btn btn-outline-light btn-sm">
+                <i class="fas fa-trash-alt fa-sm"></i>
+              </button>
+            </form>
+            {% endif %}
+          </li>
+          {% endfor %}
+          <br>
         {% else %}
-        찜 목록이 없어용
+          <li>찜 목록이 없어용!</li>
         {% endif %}
+        </ul>
 
-        <h3>{{ person.username }}'s 게시글</h3>
+        <h3><i class="fas fa-clipboard-list text-primary"></i> 작성한 게시글</h3>
         <ul>
           {% for review in person.review_set.all %}
           <li>
-            <div class='fs-5 d-inline'>제목 : {{ review.title }}</div>
-            <a href="{% url 'community:detail' review.pk %}" type='btn' class='btn btn-secondary d-inline'>바로가기</a>
+            <div class='fs-5 d-inline'>제목 : {{ review.title }} </div>
+            <a href="{% url 'community:detail' review.pk %}" class=' d-inline'>
+              <i class="fas fa-paperclip text-light"></i>
+            </a>
           </li>
           {% endfor %}
         </ul>
         <br>
 
-        <h3>{{ person.username }}'s 댓글</h3>
-        {% for comment in person.comment_set.all %}
-          <div>{{ comment.content }}</div>
-        {% endfor %}
+        <h3><i class="fas fa-star text-warning"></i>평점 목록</h3>
+        <ul>
+          {% for comment in person.movie_comments.all %}
+          <li>
+            {% for movie in movies %}
+              {% if movie.id == comment.movie_id %}
+                <div class='d-inline'>
+                  <a class='text-light' href='{% url 'movies:detail' movie.pk %}'>{{ movie.title }} - </a>
+                </div>
+              {% endif %}
+            {% endfor %}
+            <div class='d-inline-block text-warning'>
+              {% if comment.rank == 1 %}★
+              {% elif comment.rank == 2 %}★★
+              {% elif comment.rank == 3 %}★★★
+              {% elif comment.rank == 4 %}★★★★
+              {% else %}★★★★★
+              {% endif %}
+            </div>
+            {{ comment.content }}<br>
+          </li>
+          {% endfor %}
       </div>
     </div>
   </div>
   
-
-{% comment %} 
-  <h3>{{ person.username }}가 찜한 영화</h3>
-    {% if url_key|length%}
-    {% for movie in person.like_movies.all %}
-    <li>
-      <div class='fs-5 d-inline'>{{ movie.title }}</div>
-      {{movie.genres}}
-      <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='btn btn-light d-inline'>detail</a>    
-    </li>
-    {% endfor %}
-    <br>
-    {% else %}
-    찜 목록이 없어용
-    {% endif %} {% endcomment %}
-  
-    
- 
-  
-  {% comment %} {{url_key}}
-  {{cnt}}
-  {{num2}}
-  {{genre_list}}
-  {{genre}}
-  {{genre3}} {% endcomment %}
-  {% comment %} {{num}}
-  {{genre}}
-  {{genre2.name}} {% endcomment %}
-  {% comment %} {{person}} {% endcomment %}
-  {% comment %} {{movie_list}} {% endcomment %}
-
-  {% comment %} {% for movie in movie_list%}
-    {{movie.id}}
-    {{movie.genres.all}}
-    {{genre}}
-  {% endfor%} {% endcomment %}
-
-
-  {% comment %} <h3>{{ person.username }}'s 게시글</h3>
-  <ul>
-    {% for review in person.review_set.all %}
-    <li>
-      <div class='fs-5 d-inline'>제목 : {{ review.title }}</div>
-      <a href="{% url 'community:detail' review.pk %}" type='btn' class='btn btn-secondary d-inline'>바로가기</a>
-    </li>
-    {% endfor %}
-  </ul>
-  <br>
-
-  <h3>{{ person.username }}'s 댓글</h3>
-  {% for comment in person.comment_set.all %}
-    <div>{{ comment.content }}</div>
-  {% endfor %}
-  <hr> {% endcomment %}
 {% endblock content %}
-
-{% block script %}
-  <script>
-    const form = document.querySelector('#follow-form')
-    // console.log(form)
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault()
-      // console.log(event)
-      const userId = event.target.dataset.userId
-
-      axios({
-        method: 'post',
-        url: `http://127.0.0.1:8000/accounts/${userId}/follow/`,
-        headers: {'X-CSRFToken': csrftoken},
-      })
-        .then(response => {
-          // 팔로우 버튼 토글
-          // console.log(response)
-          const followBtn = document.querySelector('#follow-form > button')
-          const isFollowed = response.data.isFollowed
-          const followers_count = response.data.followers_count
-          const followings_count = response.data.followings_count
-          // const { isFollowed, followers_count, followings_count } = response.data
-          const followCountDiv = document.querySelector('#follow-count > div')
-
-          if (isFollowed === true) {
-            followBtn.innerText = '언팔로우'
-          } else {
-            followBtn.innerText = '팔로우'
-          }
-
-          followCountDiv.innerText = `팔로잉 수 : ${followings_count} / 팔로워 수 : ${followers_count}`
-        })
-    })
-
-
-  </script>
-{% endblock script %}

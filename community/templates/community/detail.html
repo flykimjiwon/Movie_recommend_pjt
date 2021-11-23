@@ -1,40 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2 class="text-center">DETAIL</h2>
-  <h3>{{ review.pk }} 번째 글</h3>
   <hr>
-  <p>제목: {{ review.title }}</p>
-  <p>영화 제목: {{ review.movie_title }}</p>
-  <p>내용: {{ review.content }}</p>
-  <p>평점: {{ review.rank }}</p>
-  <p>작성 시각: {{ review.created_at }}</p>
-  <p>수정 시각: {{ review.updated_at }}</p>
-  <hr>
+  <h3>제목: {{ review.title }}</h3>
+  <p class='fs-5'>내용: {{ review.content }}</p>
+  <div class='fw-light'>작성 시각: {{ review.created_at }}</div>
+  <div class='fw-light'>수정 시각: {{ review.updated_at }}</div>
+  <br>
   
   {% if user == review.user %}
-    <a href="{% url 'community:update' review.pk %}" type='btn' class='btn btn-outline-light mb-4'>수정하기</a>
-    <form action="{% url 'community:delete' review.pk %}" method="POST">
+    <a href="{% url 'community:update' review.pk %}" type='btn' class='btn btn-outline-light mb-4 d-inline-block'>수정하기</a>
+    <form action="{% url 'community:delete' review.pk %}" method="POST" class='d-inline-block'>
     {% csrf_token %}
     <input type="submit" class='btn btn-outline-light mb-4' value="삭제하기">
   </form>
   {% endif %}
+  <hr>
 
-  <h4 class='fw-bold'>댓글 목록</h4>
+  <h4 class='fw-bold d-inline'>댓글 목록</h4>
   {% if comments|length %}
-    <p><b>{{ comments|length }}개의 댓글이 있습니다.</b></p>
+    <p class='d-inline'>({{ comments|length }})</p>
   {% endif %}
+  <ul>
   {% for comment in comments %}
-    <div>
+    <li>
       {{ comment.user }} - {{ comment.content }}
-      {{ comment.pk }}
         {% if user == comment.user %}
           <form action="{% url 'community:delete_comment' review.pk comment.pk %}" method="POST" class="d-inline">
             {% csrf_token %}
-            <input type="submit" value="DELETE" class="btn btn-outline-light mb-4">
+            <button class="btn btn-outline-danger btn-sm">
+              <i class="fas fa-trash-alt fa-sm"></i>
+            </button>
           </form>
         {% endif %}
-    </div>
+    </li>
   {% empty %}
     <p><b>댓글이 없어요..</b></p>
   {% endfor %}
@@ -48,5 +47,7 @@
   {% else %}
     <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
   {% endif %}
-  <a href="{% url 'community:index' %}">[back]</a>
+  <div class='d-flex justify-content-end'>
+    <a href="{% url 'community:index' %}" type='btn' class='btn btn-outline-light mb-4'>목록으로</a>
+  </div>
 {% endblock  %}
