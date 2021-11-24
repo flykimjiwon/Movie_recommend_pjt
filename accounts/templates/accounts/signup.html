@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
- <div class="d-flex justify-content-center">
-<form action="" method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" id="button" class="btn btn-outline-light mb-4">
-</form>
+
+<div class="card bg-dark m-5 mx-auto"  style="width: 50rem;">
+  <div class='card-body'>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-outline-light ms-auto">
+    </form>
+  </div>
 </div>
+
 {% endblock  %}
