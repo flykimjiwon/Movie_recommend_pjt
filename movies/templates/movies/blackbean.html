@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<h2>검은콩이 {{ results |length}} 가지의 영화를 추천드려요</h2>
+
+
+{% if results|length%}
+  <div class="row">
+{% for result in results %}
+    <div class="col-2">
+      <div class="card border-light mb-3" style="max-width: 18rem;">
+  <div class="card-body">
+  {% if result.poster_path|length%}
+ <div
+                    class="bg-image hover-overlay ripple"
+                    data-mdb-ripple-color="light"
+                    id="mouse-enter"
+                  >
+                    <img
+                      src="https://image.tmdb.org/t/p/original/{{result.poster_path}}"
+                      class="img-fluid"
+                    />
+                    <a href="#!">
+                      <div
+                        class="mask"
+                        style="background-color: rgba(251, 251, 251, 0.15)"
+                      ></div>
+                    </a>
+                  </div> 
+
+                  <button type="button" id="mouseOver{{result.id}}" class="d-none btn btn-outline-light mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{result.id}}">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{result.id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{result.id}}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel{{result.id}}">{{result.title}} {{result.release_date}}개봉</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <img
+                      src="https://image.tmdb.org/t/p/original/{{result.poster_path}}"
+                      class="img-fluid"
+                    />
+                    
+        {{result.overview}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-light mb-4" data-bs-dismiss="modal">닫기</button>
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+    {% else %}
+    포스터가 없는 영화입니다
+    {% endif %}
+    <p class="card-text">
+    {% if result.overview|length%}
+    {{ result.overview|slice:":50"}}....
+    {% else %}
+    줄거리가 제공되지 않는 영화입니다
+    {% endif %}
+    </p>
+  </div>
+</div>
+    </div>
+{% endfor%}
+</div>
+{% else %}
+  <h3>해당장르를 전부 가지고 있는 영화가 없어용 ㅠㅡㅠ</h3>
+
+{% endif %}
+
+
+<script> 
+const modalButtons = document.querySelectorAll('.d-none')
+const modalEnters = document.querySelectorAll('#mouse-enter')
+modalEnters.forEach(function(element,index){
+    
+    element.addEventListener('click',function(){
+    console.log(index)
+    
+    modalButtons[index].click()// 오...미친 이 사용법이 되네연?
+    })
+})
+
+</script>
+{% endblock %}
+

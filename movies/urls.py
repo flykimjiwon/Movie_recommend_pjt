@@ -9,6 +9,7 @@ urlpatterns = [
     path('recommended/', views.recommended, name='recommended'),
     path('recoreco/', views.recoreco, name='recoreco'),
     path('result/', views.result, name='result'),
+    path('blackbean/<username>/', views.blackbean, name='blackbean'),
     path('suggest/<int:movie_list_id>/', views.detail2, name='detail2'),
 
     path('<int:pk>/comments/', views.comments_create, name='comments_create'),

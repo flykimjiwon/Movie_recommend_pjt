@@ -82,8 +82,9 @@
         class="bg-image hover-overlay ripple"
         data-mdb-ripple-color="light"
       >
+      {% comment %} src="{% get_static_prefix %}images/{{val}}.jpg" {% endcomment %}
         <img
-          src="{% get_static_prefix %}images/{{val}}.jpg"
+          src="http://flykimjiwon.dothome.co.kr/static/images/{{val}}.jpg"
           class="img-fluid"
         />
         <a href="#!">
