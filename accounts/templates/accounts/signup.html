@@ -4,7 +4,7 @@
 
 <div class="card bg-dark m-5 mx-auto"  style="width: 50rem;">
   <div class='card-body'>
-    <form action="" method="POST">
+    <form action="" method="POST" class='m-3'>
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" class="btn btn-outline-light ms-auto">
