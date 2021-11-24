@@ -1,25 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% comment %} <h1 style="display:inline">결과 </h1> {% endcomment %}
 <br>
 <a href="{% url 'movies:recoreco' %}" type='btn' class="btn btn-outline-light mb-4" data-mdb-ripple-color="dark">다시골라보시겠어용?</a>
 <br><br>
-{% comment %} {{value}}
-<br>
-{{value.method}}
-<br>
-{{value.GET}}
 
-<br>
-<hr>
-{{value2}}
-{{value3}}
-{{value4}} {% endcomment %}
-{% comment %} {{ result }}
-{{ result_key }}
-{{ url_key }} {% endcomment %}
-{% comment %} {{ genre_ids }} {% endcomment %}
 {% if movie_lists|length%}
   <div class="row">
 {% for movie_list in movie_lists %}
@@ -30,20 +15,10 @@
     
     <div class="col-2">
       <div class="card border-light mb-3" style="max-width: 18rem;">
-  {% comment %} <div class="card-header">
-  {{ movie_list.title }}
-  <a href="{% url 'movies:detail2' movie_list.id %}" >detail</a>
-
-  </div> {% endcomment %}
+ 
   <div class="card-body">
   {% if movie_list.poster_path|length%}
-    {% comment %} <img src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}" alt="" width="250"> {% endcomment %}
 
-
-{% comment %} <img
-                      src="https://image.tmdb.org/t/p/original/{{movie_list.poster_path}}"
-                      class="img-fluid"
-                    /> {% endcomment %}
  <div
                     class="bg-image hover-overlay ripple"
                     data-mdb-ripple-color="light"
@@ -83,7 +58,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-light mb-4" data-bs-dismiss="modal">닫기</button>
-        {% comment %} <a href="{% url 'movies:detail' movie_list.id %}" >detail</a> {% endcomment %}
 
         
       </div>
@@ -91,13 +65,11 @@
   </div>
 </div>
 
-{% comment %}  {% endcomment %}
     {% else %}
 
     포스터가 없는 영화입니다
     {% endif %}
 
-    {% comment %} <h5 class="card-title">개봉일 - {{ movie_list.release_date}}</h5> {% endcomment %}
     <p class="card-text">
     {% if movie_list.overview|length%}
     {{ movie_list.overview|slice:":50"}}....
@@ -105,35 +77,20 @@
     줄거리가 제공되지 않는 영화입니다
     {% endif %}
     </p>
-    {% comment %} 슬라이씽 {% endcomment %}
   </div>
 </div>
     </div>
    
   
 
-
-{% comment %} {{movie_list.title}} {% endcomment %}
-{% comment %} {{movie_list.overview}} {% endcomment %}
-
 {% endfor%}
 </div>
 {% else %}
   <h3>해당장르를 전부 가지고 있는 영화가 없어용 ㅠㅡㅠ</h3>
-  {% comment %} 오늘의 추천영화를 띄워주기 {% endcomment %}
     <a href="{% url 'movies:recoreco' %}" type='btn' class='btn btn-outline-light mb-4'>다시골라보시겠어용?</a>
 
 {% endif %}
  
-{% comment %} {{test}} {% endcomment %}
-  {% comment %} <a href="{{ url }}" type='btn' class='btn btn-outline-light mb-4'>json파일체크</a> {% endcomment %}
-
-
-
-
-
-
-
 <script> 
 const modalButtons = document.querySelectorAll('.d-none')
 const modalEnters = document.querySelectorAll('#mouse-enter')

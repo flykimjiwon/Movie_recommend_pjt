@@ -6,7 +6,6 @@
 
 
 <br><br>
-{% comment %} <h1>추천영화</h1> {% endcomment %}
 
 <!-- Section: Form -->
     <section class="">
@@ -48,10 +47,7 @@
             <!-- Submit button -->
             
 
-            {% comment %} <button type="button" id="test" class="btn btn-outline-light mb-4">
-              test
-            </button> {% endcomment %}
-
+  
           </div>
           <!--Grid column-->
         </div>
@@ -62,33 +58,13 @@
 
       <div class="row d-flex justify-content-center">
       <div class="col-auto">
-      {% comment %}  {% endcomment %}
       </div>
       <div class="col-auto">
       <ul>
-        {% comment %} <li class="movie">모험</li>
-        <li class="movie">판타지</li>
-        <li class="movie">애니메이션</li>
-        <li class="movie">드라마</li>
-        <li class="movie">공포</li>
-        <li class="movie">액션</li>
-        <li class="movie">코미디</li>
-        <li class="movie">역사</li>
-        <li class="movie">서부</li>
-        <li class="movie">스릴러</li>
-        <li class="movie">범죄</li>
-        <li class="movie">다큐멘터리</li>
-        <li class="movie">SF</li>
-        <li class="movie">미스터리</li>
-        <li class="movie">음악</li>
-        <li class="movie">로맨스</li>
-        <li class="movie">가족</li>
-        <li class="movie">전쟁</li>
-        <li class="movie">TV 영화</li> {% endcomment %}
+
         </ul>
       </div>
       <div class="col-auto">
-      {% comment %}  {% endcomment %}
       </div>
       </div>
 
@@ -98,8 +74,6 @@
 <div class="container">
 <div class="row">
   
-  {% comment %}  {% endcomment %}
-  <!--노가다로 외부 html삽입해서뭐..만들어도 될거같긴함 19개밖에 안되니깐 심혈을 기울이기 -->
   {% for key,val in genre.items %}
   <div class="col-2">
     <div class="card movie">
@@ -119,13 +93,7 @@
           ></div>
         </a>
       </div>
-      
-      {% comment %} <img
-        src="{% get_static_prefix %}images/{{val}}.jpg"
-        src="{% static 'images/12.jpg'%}"
-        class="card-img-top"
-        alt="..."
-      /> {% endcomment %}
+   
 
 
       <div class="card-body" >
@@ -134,72 +102,24 @@
       </div>
     </div>
   </div>
-  {% comment %} 이거개편하다! {% endcomment %}
-  
-  {% comment %} {{key}},{{val}} {% endcomment %}
+
   {% endfor %}
 
 </div>
 </div>
-
- {% comment %} <form action="{% url 'movies:result' %}" method="GET">    
-
-        <input size="30" type="text" id="search" name="search" Placeholder="다시넣어주세용" value="보고싶은 장르를 넣어주세용" > 
-       
-       <button type="submit" id="button"  class="btn btn-light" data-mdb-ripple-color="dark">버튼</button>
-       <br><br>
-  </form>
-
-        <button type="button" id="button2"  class="btn btn-light" data-mdb-ripple-color="dark">초기화</button>
-        <ul>
-        <li class="movie">모험</li>
-        <li class="movie">판타지</li>
-        <li class="movie">애니메이션</li>
-        <li class="movie">드라마</li>
-        <li class="movie">공포</li>
-        <li class="movie">액션</li>
-        <li class="movie">코미디</li>
-        <li class="movie">역사</li>
-        <li class="movie">서부</li>
-        <li class="movie">스릴러</li>
-        <li class="movie">범죄</li>
-        <li class="movie">다큐멘터리</li>
-        <li class="movie">SF</li>
-        <li class="movie">미스터리</li>
-        <li class="movie">음악</li>
-        <li class="movie">로맨스</li>
-        <li class="movie">가족</li>
-        <li class="movie">전쟁</li>
-        <li class="movie">TV 영화</li>
-        </ul> {% endcomment %}
 
 
   
 
 <script> 
 
-{% comment %} alert('hello') {% endcomment %}
-{% comment %} const search = document.querySelector('#search') {% endcomment %}
 const search = document.querySelector('.form-control')
 const btn2 = document.querySelector('#button2')
 //const test = document.querySelector('#test')
 
-{% comment %} const movies = document.querySelectorAll('.movie')
- movies.forEach(movie=>{
-    movie.addEventListener('click',function(event){
-      
-      alert('hoihi')
-      console.log('hihih')
-    })
-  })  {% endcomment %}
 
 let arr = ''
 let arr2 = []
-
-{% comment %} test.addEventListener('mouseover',function(event){
-  btn2.click()
-  //좋아 이걸로 모달 구현
-}) {% endcomment %}
 
 
 const genre = document.querySelectorAll('.movie').forEach(item =>{
@@ -225,9 +145,6 @@ const genre = document.querySelectorAll('.movie').forEach(item =>{
   })
 })
 
-{% comment %} focusMethod = function getFocus() {
-  document.getElementById("form5Example21").focus();
-} {% endcomment %}
 
 btn2.addEventListener('click', function (event) {
        search.value=""

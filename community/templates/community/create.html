@@ -2,7 +2,6 @@
 
 {% block content %}
 <br><br>
-  {% comment %} <h1 class="text-center">CREATE</h1> {% endcomment %}
   <form action="" method="POST">
     {% csrf_token %}
     {{ form.as_p }}

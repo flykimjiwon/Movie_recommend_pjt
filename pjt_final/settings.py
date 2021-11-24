@@ -125,6 +125,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+# 이게문제였군
 
 
 AUTH_USER_MODEL = 'accounts.User'

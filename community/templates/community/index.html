@@ -2,9 +2,7 @@
 
 {% block content %}
 <br>
-{% comment %} {{page_obj}} {% endcomment %}
-{% comment %} 정렬 어거지로 ㅇㅇ {% endcomment %}
-{% comment %} <div class="d-flex flex-row-reverse"> {% endcomment %}
+
 <div class='d-flex justify-content-end'>
   <a class="navbar-brand" href="{% url 'community:create'%}">
     <button type="button" id="test" class="btn btn-outline-light mb-4 float-right" >
@@ -21,8 +19,7 @@
 <th>제목</th>
 <th>작성시간</th>
 <th>작성자</th>
-{% comment %} <th>좋아요수</th> {% endcomment %}
-{% comment %} <th>좋아요</th> {% endcomment %}
+
 </tr>
 </thead>
 <tbody>
@@ -30,11 +27,10 @@
 <tr>
 <td>{{ review.pk }}</td>
 
-<td><a href="{% url 'community:detail' review.pk %}">{{ review.title }}</a></td>
+<td><a href="{% url 'community:detail' review.pk %}" class='text-light'>{{ review.title }}</a></td>
 <td>{{ review.created_at }}</td>
-<td><a href="{% url 'accounts:profile' review.user.username %}">{{ review.user }}</a></td>
-{% comment %} <td><span id="like-count-{{ review.pk }}">{{ review.like_users.all|length }}</span></td> {% endcomment %}
-{% comment %} <td>123</td> {% endcomment %}
+<td><a href="{% url 'accounts:profile' review.user.username %}" class='text-light'>{{ review.user }}</a></td>
+
 </tr>
 {% endfor %}
 </tbody>

@@ -11,7 +11,6 @@
         {% if url_key|length %}
         <div class="card w-100">
           <img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class="card-img-top" alt="No Poster">
-          {% comment %} 포스터 안뜨는 것도 있음 {% endcomment %}
           <div class="card-body">
             <h5 class="card-title d-inline-block">{{result.title}}</h5>
             <a href="{% url 'movies:detail2' result.id %}" class='d-inline-block'>
