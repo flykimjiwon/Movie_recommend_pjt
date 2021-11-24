@@ -81,7 +81,8 @@ def blackbean(request, username):
     result = response["results"]
     random_len = len(result)
     result_num = random.randrange(0,random_len)
-
+    result = result[0:12]
+    random.shuffle(result)
     movies = Movie.objects.order_by('?')
     context = {
         'person': person,
@@ -90,7 +91,7 @@ def blackbean(request, username):
         'cnt':cnt,
         'url_key':url_key,
         'results':result,
-        'test':result[result_num],
+        # 'test':result[result_num],
         'movies': movies,
     }
     return render(request, 'movies/blackbean.html', context)
