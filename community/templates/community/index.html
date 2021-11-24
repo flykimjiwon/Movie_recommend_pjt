@@ -2,39 +2,35 @@
 
 {% block content %}
 <br>
-
+<h1><i class="fas fa-users"></i>커뮤니티</h1>
+<div class='fs-5' style='color:gray'>사용자들과 소통할 수 있는 공간입니다. 자유롭게 글을 작성해 보세요!</div>
 <div class='d-flex justify-content-end'>
   <a class="navbar-brand" href="{% url 'community:create'%}">
-    <button type="button" id="test" class="btn btn-outline-light mb-4 float-right" >
-    글쓰기
+    <button type="button" id="test" class="btn btn-outline-light mb-4">
+      글쓰기
     </button>
   </a>
 </div>
 
-
 <table class="table table-striped table-hover">
-<thead>
-<tr>
-<th>번호</th>
-<th>제목</th>
-<th>작성시간</th>
-<th>작성자</th>
-
-</tr>
-</thead>
-<tbody>
-{% for review in page_obj %}
-<tr>
-<td>{{ review.pk }}</td>
-
-<td><a href="{% url 'community:detail' review.pk %}" class='text-light'>{{ review.title }}</a></td>
-<td>{{ review.created_at }}</td>
-<td><a href="{% url 'accounts:profile' review.user.username %}" class='text-light'>{{ review.user }}</a></td>
-
-</tr>
-{% endfor %}
-</tbody>
-
+  <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>작성시간</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for review in page_obj %}
+    <tr>
+      <td>{{ review.pk }}</td>
+      <td><a href="{% url 'community:detail' review.pk %}" class='text-light'>{{ review.title }}</a></td>
+      <td><a href="{% url 'accounts:profile' review.user.username %}" class='text-light'>{{ review.user }}</a></td>
+      <td>{{ review.created_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 <br><br>
@@ -47,8 +43,8 @@
 
         {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        <span class="current fs-5">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
         </span>
 
         {% if page_obj.has_next %}
@@ -58,48 +54,3 @@
     </ul>
 </nav>
 {% endblock %}
-
-
-
-{% block script %}
-<script>
-  // 1. form 태그를 class 선택자로 선택
-  const forms = document.querySelectorAll('.like-form')
-  // console.log(forms)
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-
-  // 2. for..of / forEach 여러 forms를 반복을 돌면서 axios를 요청할 수 있도록 함
-  forms.forEach(form => {
-    // console.log(form)
-    form.addEventListener('submit', function (event) {
-      event.preventDefault()
-      // console.log(event.target.dataset.articleId)
-      const articleId = event.target.dataset.articleId
-
-      axios({
-        method: 'post',
-        url: `http://127.0.0.1:8000/community/${articleId}/like/`,
-        headers: {'X-CSRFToken': csrftoken},
-      })
-        .then(response => {
-          // console.log(response.data)
-          const liked = response.data.liked
-          const likeButton = document.querySelector(`#like-button-${articleId}`)
-          const likeCount = document.querySelector(`#like-count-${articleId}`)
-          const count = response.data.count
-          likeButton.classList.toggle('btn-primary')
-          likeButton.classList.toggle('btn-secondary')
-
-          if (liked === true) {
-            likeButton.innerText = '좋아요 취소'
-          } else {
-            likeButton.innerText = '좋아요'
-          }
-
-          likeCount.innerText = count
-        })
-    })
-  })
-
-</script>
-{% endblock script %}

@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<br><br>
+<br>
+<h1><i class="fas fa-users"></i>커뮤니티</h1>
+<br>
   <form action="" method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>{{ form.as_p }}</div>
     <input type="submit" type='btn' class='btn btn-outline-light mb-4'>
   </form>
   <hr>
-  <a href="{% url 'community:index' %}" type='btn' class='btn btn-outline-light mb-4'>목록으로</a>
+  <div class='d-flex justify-content-end'>
+    <a href="{% url 'community:index' %}" type='btn' class='btn btn-outline-light mb-4'>목록으로</a>
+  </div>
 {% endblock %}

@@ -2,7 +2,15 @@
 
 {% block content %}
 <br>
-<div class="row">
+<div class='row'>
+  <div class='col-10'>
+    <h1><i class="fas fa-dice"></i>랜덤추천</h1>
+    <div class='fs-5 d-inline' style='color:gray'>무작위로 하나의 영화가 나타납니다!</div>
+  </div>
+  <div class='col-2 g-4 my-4'>
+    <a class="btn btn-outline-light" href="{% url 'movies:recommended'%}"><i class="fas fa-dice"></i>다시 뽑기</a>
+  </div>
+
   <div class="col-6 mx-auto" id="mbmb">
     <div class="card border-light mb-3">
       <div class="card-header">

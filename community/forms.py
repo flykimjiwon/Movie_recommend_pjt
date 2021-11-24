@@ -32,7 +32,7 @@ class CommentForm(forms.ModelForm):
         label='',
         widget=forms.Textarea(
             attrs={
-                'rows': 2,
+                'rows': 1,
                 'cols': 70,
                 'placeholder': '댓글을 입력하세요.'
             }

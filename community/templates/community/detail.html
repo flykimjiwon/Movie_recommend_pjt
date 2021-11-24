@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <br>
+  <h1><i class="fas fa-users"></i>커뮤니티</h1>
   <hr>
   <h3>제목: {{ review.title }}</h3>
   <p class='fs-5'>내용: {{ review.content }}</p>
@@ -40,10 +42,11 @@
   </ul>
   <hr>
   {% if request.user.is_authenticated %}
-    <form action="{% url 'community:create_comment' review.pk %}" method="POST">
+
+    <form action="{% url 'community:create_comment' review.pk %}" method="POST" class='row'>
       {% csrf_token %}
-      {{ comment_form }}
-      <input type="submit" class="btn btn-outline-light mb-4" value="댓글쓰기">
+      <div class='col-6 d-flex'>{{ comment_form }}</div>
+      <input type="submit" class="btn btn-outline-light col-1" value="댓글쓰기">
     </form>
   {% else %}
     <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요.]</a>

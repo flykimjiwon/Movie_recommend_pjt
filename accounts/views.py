@@ -14,14 +14,14 @@ from movies.models import Movie
 @require_http_methods(['GET', 'POST'])
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('community:index')
+        return redirect('movies:index')
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('community:index')
+            return redirect('movies:index')
     else:
         form = CustomUserCreationForm()
     context = {
@@ -33,7 +33,7 @@ def signup(request):
 @require_http_methods(['GET', 'POST'])
 def login(request):
     if request.user.is_authenticated:
-        return redirect('community:index')
+        return redirect('movies:index')
 
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)

@@ -6,7 +6,11 @@ class MovieCommentForm(forms.ModelForm):
     rank = forms.ChoiceField(
         label='',
         choices=rank_choices,
-        widget=forms.Select(),
+        widget=forms.Select(
+            attrs={
+                'class': ''
+            }
+        ),
         required=True
     )
     content = forms.CharField(
@@ -15,7 +19,7 @@ class MovieCommentForm(forms.ModelForm):
             attrs={
                 'class': 'my-content',
                 'rows': 1,
-                'cols': 70,
+                'cols': 40,
                 'placeholder': '한줄평을 작성해주세용!'
             }
         ),

@@ -1,12 +1,11 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
 
-
-
-<br><br>
-
+<br>
+<h1><i class="fas fa-thumbs-up"></i>장르추천</h1>
+<div class='fs-5' style='color:gray'>장르별로 영화를 추천해드립니다. 마음껏 검색해보세요!</div>
+<br>
 <!-- Section: Form -->
     <section class="">
       <form action="{% url 'movies:result' %}" method="GET">
@@ -18,7 +17,6 @@
               <strong>보고싶은 장르를 클릭해 넣어주세요</strong>
             </p>
           </div>
-          <!--Grid column-->
 
           <!--Grid column-->
           <div class="col-md-5 col-12">
@@ -29,7 +27,6 @@
               <label class="form-label" for="form5Example21">장르</label>
             </div>
           </div>
-          <!--Grid column-->
 
           <!--Grid column-->
           <div class="col-auto">
@@ -41,87 +38,51 @@
               초기화
             </button>
           </div>
-          <!--Grid column-->
-          <!--Grid column-->
-          <div class="col-auto">
-            <!-- Submit button -->
-            
+        </div>
+      </form>
+    </section>
 
+<div class="container">
+  <div class="row">
   
-          </div>
-          <!--Grid column-->
+    {% for key,val in genre.items %}
+    <div class="col-2">
+      <div class="card movie">
+
+        <div
+          class="bg-image hover-overlay ripple"
+          data-mdb-ripple-color="light"
+        >
+          <img
+            src="{% get_static_prefix %}images/{{val}}.jpg"
+            class="img-fluid"
+          />
+          <a href="#!">
+            <div
+              class="mask"
+              style="background-color: rgba(251, 251, 251, 0.15)"
+            ></div>
+          </a>
         </div>
 
-
-        <!--Grid row-->
-      </form>
-
-      <div class="row d-flex justify-content-center">
-      <div class="col-auto">
-      </div>
-      <div class="col-auto">
-      <ul>
-
-        </ul>
-      </div>
-      <div class="col-auto">
-      </div>
-      </div>
-
-      
-    </section>
-    <!-- Section: Form -->
-<div class="container">
-<div class="row">
-  
-  {% for key,val in genre.items %}
-  <div class="col-2">
-    <div class="card movie">
-
-      <div
-        class="bg-image hover-overlay ripple"
-        data-mdb-ripple-color="light"
-      >
-      {% comment %} src="{% get_static_prefix %}images/{{val}}.jpg" {% endcomment %}
-        <img
-          src="http://flykimjiwon.dothome.co.kr/static/images/{{val}}.jpg"
-          class="img-fluid"
-        />
-        <a href="#!">
-          <div
-            class="mask"
-            style="background-color: rgba(251, 251, 251, 0.15)"
-          ></div>
-        </a>
-      </div>
-   
-
-
-      <div class="card-body" >
-      
-        <p class="card-title text-center">{{ key }}</p>
+        <div class="card-body" >
+          <p class="card-title text-center">{{ key }}</p>
+        </div>
       </div>
     </div>
+    {% endfor %}
+
   </div>
-
-  {% endfor %}
-
-</div>
 </div>
 
-
-  
 
 <script> 
-
 const search = document.querySelector('.form-control')
 const btn2 = document.querySelector('#button2')
 //const test = document.querySelector('#test')
 
-
 let arr = ''
 let arr2 = []
-
 
 const genre = document.querySelectorAll('.movie').forEach(item =>{
   item.addEventListener('click', event => {
@@ -133,7 +94,6 @@ const genre = document.querySelectorAll('.movie').forEach(item =>{
       // 아 arr.push라고함 ㅡㅡ
     }
     arr+=item.innerText
-    
     let arr3  =arr2.toString()
     
     console.log(arr)
@@ -145,15 +105,6 @@ const genre = document.querySelectorAll('.movie').forEach(item =>{
     //focusMethod()
   })
 })
-
-
-btn2.addEventListener('click', function (event) {
-       search.value=""
-       arr=''
-       arr2=[]
-       
-  })
-
 
 </script>
 {% endblock %}

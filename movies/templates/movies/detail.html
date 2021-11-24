@@ -4,7 +4,7 @@
   <br>
   <div class='container'>
     <div class='row'>
-      <div class='box col-4'>
+      <div class='box col-4 mb-4'>
         <img src="{{url}}" alt="" class='w-100'>
       </div>
 
@@ -54,14 +54,15 @@
         
         <hr>
         {% if request.user.is_authenticated %}
-          <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
-            {% csrf_token %}
-            {{ comment_form }}
-            <input type="submit" class='btn btn-outline-light' value='등록'>
-          </form>
+            <form action="{% url 'movies:comments_create' movie.pk %}" method="POST" class='row'>
+              {% csrf_token %}
+              <div class='col-8 d-flex align-items-stretch'>{{ comment_form }}</div>
+              <input type="submit" class='btn btn-outline-light col-2' value='등록'>
+            </form>
         {% else %}
           <a href="{% url 'accounts:login' %}">[평점을 작성하려면 로그인하세요.]</a>
         {% endif %}
+
       </div>
     </div>
   </div>

@@ -1,32 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <br>
-  <h1><i class="fas fa-user-alt"></i> 프로필 - {{ person.username }}</h1>
-  <br>
-
-  <div class="container">
+  <div class="container my-5">
     <div class='row'>
-      <div class="box col-4"> 
-        {% if url_key|length %}
-        <div class="card w-100">
-          <img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class="card-img-top" alt="No Poster">
-          <div class="card-body">
-            <h5 class="card-title d-inline-block">{{result.title}}</h5>
-            <a href="{% url 'movies:detail2' result.id %}" class='d-inline-block'>
-              <i class="fas fa-info-circle fa-lg text-light"></i>
-            </a>
-            <p class="card-text">{{result.overview|slice:":50"}}...</p>
-            
-            <div class='fw-light d-inline-block' style='color:gray'>찜 목록을 기반으로 추천하는 영화입니당!</div>
-          </div>
-        </div>
-        {% else %}
-        찜 목록이 없어서 추천할 수 없어용
-        {% endif %}
-      </div>
-
-      <div class="box col-8">
+      <div class="box col-6">
+        <h1><i class="fas fa-user-alt"></i> 프로필 - {{ person.username }}</h1>
+        <br>
         <h3><i class="fas fa-heart text-danger "></i> 찜한 영화들</h3>
         <ul>
         {% if url_key|length%}
@@ -86,6 +65,28 @@
             {{ comment.content }}<br>
           </li>
           {% endfor %}
+      </div>
+
+      <div class="box col-6"> 
+        <br>
+        <div class='container'>
+          {% if url_key|length %}
+          <div class="row bg-dark p-2">
+            <div class='fs-5'><i class="far fa-check-square text-secondary"></i> 오늘의 영화</div>
+            <div class='fw-light col-12' style='color:gray'> ! 찜 목록을 기반으로 추천하는 영화입니당 !</div>
+            <div  class="col-6 m-2"><img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class='w-100' alt="No Poster"></div>
+            <div class="col-5 my-2">
+              <h5 class="card-title d-inline">{{result.title}}</h5>
+              <a href="{% url 'movies:detail2' result.id %}" class='d-inline'>
+                <i class="fas fa-info-circle fa-lg text-light"></i>
+              </a>
+              <p class="card-text">{{result.overview|slice:":70"}}...</p>
+            </div>
+          </div>
+          {% else %}
+          찜 목록이 없어서 추천할 수 없어용
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
