@@ -35,8 +35,9 @@
         {% endif %}
     </li>
   {% empty %}
-    <p><b>댓글이 없어요..</b></p>
+    <li><b>댓글이 없어요..</b></li>
   {% endfor %}
+  </ul>
   <hr>
   {% if request.user.is_authenticated %}
     <form action="{% url 'community:create_comment' review.pk %}" method="POST">
