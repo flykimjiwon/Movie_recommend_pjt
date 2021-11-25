@@ -28,7 +28,7 @@ def index(request):
         'movie_like':movie_like,
         'person':person,
         'movies':movies,
-        'c':c[:18],
+        'c':c,
         # 찜하지않은 영화중에 18개만 보여준다.
         
     }
