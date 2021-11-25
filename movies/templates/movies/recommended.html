@@ -11,7 +11,7 @@
     <a class="btn btn-outline-light" href="{% url 'movies:recommended'%}"><i class="fas fa-dice"></i>다시 뽑기</a>
   </div>
 
-  <div class="col-6 mx-auto" id="mbmb">
+  <div class="col-4 mx-auto" id="mbmb">
     <div class="card border-light mb-3">
       <div class="card-header">
         <a href="{% url 'movies:detail' movie.pk %}" type='btn' class='text-light fs-3'>{{ movie.title }}</a>
@@ -22,7 +22,7 @@
           data-mdb-ripple-color="light"
         >
           <img
-            src="https://image.tmdb.org/t/p/w780/{{movie.poster_path}}"
+            src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}"
             class="img-fluid"
           />
           <a href="{% url 'movies:detail' movie.pk %}">
