@@ -83,7 +83,6 @@ const btn2 = document.querySelector('#button2')
 
 let arr = ''
 let arr2 = []
-
 const genre = document.querySelectorAll('.movie').forEach(item =>{
   item.addEventListener('click', event => {
     //console.log('hi')
@@ -105,6 +104,14 @@ const genre = document.querySelectorAll('.movie').forEach(item =>{
     //focusMethod()
   })
 })
+
+btn2.addEventListener('click', function (event) {
+       search.value=""
+       arr=''
+       arr2=[]
+       
+  })
+
 
 </script>
 {% endblock %}
