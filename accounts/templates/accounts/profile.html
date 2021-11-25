@@ -74,7 +74,7 @@
           <div class="row bg-dark p-2">
             <div class='fs-5'><i class="far fa-check-square text-secondary"></i> 오늘의 영화</div>
             <div class='fw-light col-12' style='color:gray'> ! 찜 목록을 기반으로 추천하는 영화입니당 !</div>
-            <div  class="col-6 m-2"><img src="https://image.tmdb.org/t/p/original/{{result.poster_path}}" class='w-100' alt="No Poster"></div>
+            <div  class="col-6 m-2"><img src="https://image.tmdb.org/t/p/w500/{{result.poster_path}}" class='w-100' alt="No Poster"></div>
             <div class="col-5 my-2">
               <h5 class="card-title d-inline">{{result.title}}</h5>
               <a href="{% url 'movies:detail2' result.id %}" class='d-inline'>
