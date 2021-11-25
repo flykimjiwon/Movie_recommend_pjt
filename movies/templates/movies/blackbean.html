@@ -2,14 +2,14 @@
 {% load static %}
 {% block content %}
 <br>
-<h1><img src="{% static 'images/blackbean.png' %}" width='50'> 검은콩추천</h1>
+<h1><img src="http://flykimjiwon.dothome.co.kr/static/images/blackbean.png" width='50'> 검은콩추천</h1>
 <div class='fs-5' style='color:gray'>찜목록을 기반으로 검은콩이 {{ results |length}} 가지의 영화를 추천드려요</div>
 <br>
 
 {% if results|length%}
   <div class="row">
 {% for result in results %}
-    <div class="col-2">
+    <div class="col-3">
       <div class="card border-light mb-3" style="max-width: 18rem;">
   <div class="card-body">
   {% if result.poster_path|length%}
@@ -19,7 +19,7 @@
                     id="mouse-enter"
                   >
                     <img
-                      src="https://image.tmdb.org/t/p/original/{{result.poster_path}}"
+                      src="https://image.tmdb.org/t/p/w342/{{result.poster_path}}"
                       class="img-fluid"
                     />
                     <a href="#!">
@@ -44,7 +44,7 @@
       </div>
       <div class="modal-body">
       <img
-                      src="https://image.tmdb.org/t/p/original/{{result.poster_path}}"
+                      src="https://image.tmdb.org/t/p/w780/{{result.poster_path}}"
                       class="img-fluid"
                     />
                     

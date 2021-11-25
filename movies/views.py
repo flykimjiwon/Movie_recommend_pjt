@@ -15,11 +15,22 @@ import random
 def index(request):
     username = request.user
     person = get_object_or_404(get_user_model(), username=username)
+    movie_like = person.like_movies.all()
     movies = Movie.objects.order_by('?')
+    
+    a = list(movies)
+    b = list(movie_like)
+    c = list(set(a)-set(b))
+    random.shuffle(c)
+    # DB전체 영화중, 찜하지않은 목록만 보여주기위함,그리고 무작위로
 
     context = {
+        'movie_like':movie_like,
         'person':person,
         'movies':movies,
+        'c':c[:18],
+        # 찜하지않은 영화중에 18개만 보여준다.
+        
     }
     return render(request, 'movies/index.html', context)
 
@@ -33,7 +44,7 @@ def detail(request, movie_pk):
     context = {
         'movies': movies,
         'movie': movie,
-        'url':"https://image.tmdb.org/t/p/original"+movie.poster_path,
+        'url':"https://image.tmdb.org/t/p/w780"+movie.poster_path,
         'comment_form': comment_form,
         'comments': comments,
     }
@@ -81,7 +92,7 @@ def blackbean(request, username):
     result = response["results"]
     random_len = len(result)
     result_num = random.randrange(0,random_len)
-    result = result[0:12]
+    result = result[0:4]
     random.shuffle(result)
     movies = Movie.objects.order_by('?')
     context = {
